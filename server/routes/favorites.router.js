@@ -19,11 +19,24 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         })
 });
 
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
-    // POST route code here
+
+// adding a favorite recipe
+router.post('/', rejectUnauthenticated, (req, res) => {
+    console.log('in POST with user: ', req.user);
+    const newFavorite = req.body.newFavorite;
+
+    // inserting into favorite_recipes table in db
+    const queryText = `INSERT INTO "favorite_recipes" ("title", "image", "url", "ingredients", "user_id")
+                        VALUES ($1, $2, $3, $4, $5);`;
+
+    pool.query(queryText, [newFavorite.title, newFavorite.image, newFavorite.url, newFavorite.ingredients, req.user.id])
+    .then((response) => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log(`error in adding favorite ${error}`);
+        res.sendStatus(500);
+    })
 });
 
 module.exports = router;
