@@ -29,7 +29,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const queryText = `INSERT INTO "favorite_recipes" ("title", "image", "url", "ingredients", "user_id")
                         VALUES ($1, $2, $3, $4, $5);`;
 
-    pool.query(queryText, [newFavorite.title, newFavorite.image, newFavorite.url, newFavorite.ingredients, req.user.id])
+    pool.query(queryText, [newFavorite.label, newFavorite.image, newFavorite.url, newFavorite.ingredients, req.user.id])
     .then((response) => {
         res.sendStatus(200);
     })

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -20,6 +20,7 @@ import Button from '@material-ui/core/Button';
 
 
 import RecipeDetails from './RecipeDetails';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,11 +46,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Recipes({recipe}) {
+function Recipes({ recipe }) {
 
 
-    const classes = useStyles(); 
+    const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
+    const dispatch = useDispatch();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -65,63 +67,66 @@ function Recipes({recipe}) {
                     <li>{recipe.recipe.label}</li>
                 </ul>
             </div> */}
-                      
-                <Card className={classes.root}>
-                    <CardHeader
-                        avatar={
-                            <Avatar aria-label="recipe" className={classes.avatar}>
-                                R
+
+            <Card className={classes.root}>
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="recipe" className={classes.avatar}>
+                            R
                              </Avatar>
-                        }
-                        action={
-                            <IconButton aria-label="settings">
-                                <MoreVertIcon />
-                            </IconButton>
-                        }
-                        title={recipe.recipe.label}
-                        // subheader="September 14, 2016"
-                    />
-                    <CardMedia
-                        className={classes.media}
-                        image={recipe.recipe.image}
-                        title={recipe.recipe.label}
-                    />
-                    <CardContent>
-                        <Button variant="contained" size="small" color="primary" href={recipe.recipe.url}>
-                            Go to Recipe
+                    }
+                    action={
+                        <IconButton aria-label="settings">
+                            <MoreVertIcon />
+                        </IconButton>
+                    }
+                    title={recipe.recipe.label}
+                // subheader="September 14, 2016"
+                />
+                <CardMedia
+                    className={classes.media}
+                    image={recipe.recipe.image}
+                    title={recipe.recipe.label}
+                />
+                <CardContent>
+                    <Button variant="contained" size="small" color="primary" href={recipe.recipe.url}>
+                        Go to Recipe
                         </Button>
+                </CardContent>
+                <CardActions disableSpacing>
+                    <IconButton
+                        aria-label="add to favorites"
+                        onClick={(event) => dispatch({ type: 'ADD_FAVORITE', payload: recipe.recipe })}
+                    >
+                        <FavoriteIcon />
+                    </IconButton>
+                    <IconButton
+                        className={clsx(classes.expand, {
+                            [classes.expandOpen]: expanded,
+                        })}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+
+                    >
+                        {!expanded && <h6>details</h6>}
+                        <ExpandMoreIcon />
+                    </IconButton>
+                </CardActions>
+
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                        <Typography paragraph>Ingredients</Typography>
+                        <Typography paragraph>
+                            <RecipeDetails ingredients={recipe.recipe.ingredients} />
+                        </Typography>
+
                     </CardContent>
-                    <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites">
-                            <FavoriteIcon />
-                        </IconButton>
-                        <IconButton
-                            className={clsx(classes.expand, {
-                                [classes.expandOpen]: expanded,
-                            })}
-                            onClick={handleExpandClick}
-                            aria-expanded={expanded}
-                            aria-label="show more"
-                            
-                        >
-                            {!expanded && <h6>details</h6>}
-                            <ExpandMoreIcon />
-                        </IconButton>
-                    </CardActions>
-                    
-                    <Collapse in={expanded} timeout="auto" unmountOnExit>
-                        <CardContent>
-                            <Typography paragraph>Ingredients</Typography>
-                            <Typography paragraph>
-                                <RecipeDetails ingredients={recipe.recipe.ingredients}/>
-                            </Typography>
-                            
-                        </CardContent>
-                    </Collapse>
-                </Card>
-                </div>
-                    
-        
+                </Collapse>
+            </Card>
+        </div>
+
+
     )
 }
 
