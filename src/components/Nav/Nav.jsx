@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
-import SearchRecipes from '../SearchRecipes/SearchRecipes';
 import './Nav.css';
 import {useSelector} from 'react-redux';
 
@@ -35,6 +34,9 @@ function Nav() {
             </Link>
             <Link className="navLink" to="/search-recipes">
               Search Recipes
+            </Link>
+            <Link className="navLink" to="/favorites">
+              Favorites
             </Link>
             <LogOutButton className="navLink" />
           </>

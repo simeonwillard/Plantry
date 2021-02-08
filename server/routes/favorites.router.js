@@ -6,7 +6,7 @@ const router = express.Router();
 // get favorites from db
 router.get('/', rejectUnauthenticated, (req, res) => {
     // selecting favorite_recipes of the specific user
-    const queryText = `SELECT "favorite_recipes" WHERE "user_id" = $1;`;
+    const queryText = `SELECT * FROM "favorite_recipes" WHERE "user_id" = $1;`;
 
     pool.query(queryText, [req.user.id])
         .then((response) => {

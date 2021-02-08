@@ -22,6 +22,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import SearchRecipes from '../SearchRecipes/SearchRecipes';
 
 import './App.css';
+import FavoritesPage from '../FavoritesPage/FavoritesPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +74,14 @@ function App() {
             path="/search-recipes"
           >
             <SearchRecipes />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          // logged in shows users favorites page
+          exact
+          path="/favorites"
+          >
+            <FavoritesPage />
           </ProtectedRoute>
 
           {/* When a value is supplied for the authRedirect prop the user will
