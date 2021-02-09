@@ -3,6 +3,7 @@ import errors from './errors.reducer';
 import user from './user.reducer';
 import getSearchResults from './getSearchResults.reducer';
 import favoritesReducer from './favorites.reducer';
+import pantryReducer from './pantry.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   getSearchResults, // contains search results from edamam api
   favoritesReducer, // contains the favorite recipes of the user
+  pantryReducer, // contains user's pantry
 });
 
 export default rootReducer;

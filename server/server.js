@@ -11,6 +11,7 @@ const passport = require('./strategies/user.strategy');
 const userRouter = require('./routes/user.router');
 const edamamApiRouter = require('./routes/edamam.api.router');
 const favoritesRouter = require('./routes/favorites.router');
+const pantryRouter = require('./routes/pantry.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -27,6 +28,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/edamam', edamamApiRouter);
 app.use('/api/favorites', favoritesRouter);
+app.use('/api/pantry', pantryRouter);
 
 // Serve static files
 app.use(express.static('build'));
