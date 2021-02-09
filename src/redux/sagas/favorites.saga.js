@@ -23,10 +23,22 @@ function* addFavorite(action) {
     }
 }
 
+// saga to delete a recipe from favorites
+function* deleteFavorite(action) {
+    try {
+        console.log('removing favorite');
+        const favoriteID = action.payload.id;
+        yield axios.delete(`/api/favorites/${favoriteID}`);
+        yield put({type: 'FETCH_FAVORITES'})
+    } catch (error) {
+        console.log('error in deleting favorite', error);
+    }
+}
 
 function* favoritesSaga() {
     yield takeEvery('FETCH_FAVORITES', fetchFavorites);
     yield takeEvery('ADD_FAVORITE', addFavorite);
+    yield takeEvery('DELETE_FAVORITE', deleteFavorite);
 }
 
 export default favoritesSaga;

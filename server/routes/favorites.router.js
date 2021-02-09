@@ -24,12 +24,13 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 router.post('/', rejectUnauthenticated, (req, res) => {
     console.log('in POST with user: ', req.user);
     const newFavorite = req.body.newFavorite;
+    // console.log(newFavorite)
 
     // inserting into favorite_recipes table in db
     const queryText = `INSERT INTO "favorite_recipes" ("title", "image", "url", "ingredients", "user_id")
                         VALUES ($1, $2, $3, $4, $5);`;
 
-    pool.query(queryText, [newFavorite.label, newFavorite.image, newFavorite.url, newFavorite.ingredients, req.user.id])
+    pool.query(queryText, [newFavorite.label, newFavorite.image, newFavorite.url, newFavorite.ingredientLines, req.user.id])
     .then((response) => {
         res.sendStatus(200);
     })
@@ -39,4 +40,20 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     })
 });
 
+// deleting a favorite recipe
+router.delete('/:id',  rejectUnauthenticated, (req, res) => {
+    const queryText = `DELETE FROM "favorite_recipes" WHERE "id" = $1;`;
+
+    pool.query(queryText, [req.params.id])
+    .then((response) => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log(`error in deleting favorite ${error}`);
+        res.sendStatus(500);
+    })
+})
+
 module.exports = router;
+
+
