@@ -39,11 +39,13 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-
+// component to display the pantry
 function PantryPage() {
 
+    // using material ui css hook
     const classes = useStyles();
 
+    // defining the item the user wants to edit
     const [editItem, setEditItem] = useState({
         id: '',
         item: '',
@@ -52,10 +54,13 @@ function PantryPage() {
         date_purchased: ''
     });
 
+    // variable to determine the conditional rendering for the edit feature
     const [edit, setEdit] = useState(false);
+    // getting the data stored in redux
     const pantry = useSelector(state => state.pantryReducer);
     const dispatch = useDispatch();
 
+    // displaying the data on page load
     useEffect(() => {
         dispatch({ type: 'FETCH_PANTRY' });
     }, [])

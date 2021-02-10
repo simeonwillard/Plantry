@@ -1,12 +1,11 @@
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-import { useDispatch } from 'react-redux';
 
+// component to control the edit button
 function PantryEdit({ cupboard, edit, setEdit, editItem, setEditItem }) {
 
-    const dispatch = useDispatch();
 
-    const handleClick = (event) => {
+    const handleClick = () => {
         setEdit(!edit);
         setEditItem({
             id: cupboard.id,
@@ -20,7 +19,7 @@ function PantryEdit({ cupboard, edit, setEdit, editItem, setEditItem }) {
     }
 
     return (
-        <IconButton color="primary" onClick={handleClick} edit={edit}>
+        <IconButton color="primary" onClick={handleClick}>
             <EditIcon />
         </IconButton>
     )

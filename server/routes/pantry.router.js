@@ -5,7 +5,7 @@ const router = express.Router();
 
 // get the user's pantry
 router.get('/', rejectUnauthenticated, (req, res) => {
-    const queryText = `SELECT * FROM "pantry" WHERE "user_id" = $1;`;
+    const queryText = `SELECT * FROM "pantry" WHERE "user_id" = $1 ORDER BY "id";`;
 
     pool.query(queryText, [req.user.id])
     .then((result) => {
@@ -41,6 +41,22 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     })
     .catch((error) => {
         console.log('error in updating edited item', error);
+        res.sendStatus(500);
+    })
+})
+
+// delete route to delete a single row in the pantry table
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+    let itemToDelete = req.params.id;
+
+    const queryText = `DELETE FROM "pantry" WHERE "id" = $1 AND "user_id" = $2;`;
+
+    pool.query(queryText, [itemToDelete, req.user.id])
+    .then((result) => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('error in deleting item from pantry', error);
         res.sendStatus(500);
     })
 })

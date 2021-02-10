@@ -23,11 +23,22 @@ function* editPantry(action) {
     }
 }
 
+function* deletePantryItem(action) {
+    try {
+        console.log('deleting pantry item');
+        const itemToDelete = action.payload.id;
+        yield axios.delete(`/api/pantry/${itemToDelete}`);
+        yield put({type: 'FETCH_PANTRY'})
+    } catch (error) {
+        console.log('error in deleting item from pantry', error);
+    }
+}
 
 
 function* pantrySaga() {
     yield takeEvery('FETCH_PANTRY', fetchPantry);
     yield takeEvery('EDIT_PANTRY', editPantry);
+    yield takeEvery('DELETE_PANTRY_ITEM', deletePantryItem);
 }
 
 export default pantrySaga;
