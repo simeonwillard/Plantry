@@ -66,16 +66,18 @@ function PantryAdd() {
         })
     }
 
-
+    const handleClear = () => {
+        dispatch({ type: 'DELETE_PANTRY' });
+    }
 
     return (
         <div>
-            {   !readyToAdd &&
+            {!readyToAdd &&
                 <div>
                     <IconButton onClick={handelAddDisplay}>
                         <AddBoxIcon fontSize="large" />
                     </IconButton>
-                    <Button variant="contained">
+                    <Button variant="contained" onClick={handleClear}>
                         Clear
                     </Button>
                 </div>

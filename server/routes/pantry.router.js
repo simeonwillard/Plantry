@@ -74,4 +74,18 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
     })
 })
 
+router.delete('/', rejectUnauthenticated, (req, res) => {
+
+    const queryText = `DELETE FROM "pantry" WHERE "staple" = false AND "user_id" = $1;`;
+
+    pool.query(queryText, [req.user.id])
+    .then((result) => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('error clearing pantry', error);
+        res.sendStatus(500);
+    })
+})
+
 module.exports = router;
