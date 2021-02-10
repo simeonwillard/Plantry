@@ -14,9 +14,9 @@ function* fetchPantry() {
 
 function* editPantry(action) {
     try {
-        const itemID = action.payload.id;
         const editItem = action.payload;
-        yield axios.put(`/api/pantry/${itemID}`, { itemID, editItem });
+        console.log('action.payload ************', action.payload);
+        yield axios.put(`/api/pantry/${editItem.id}`, { editItem });
         yield put({ type: 'FETCH_PANTRY' });
     } catch (error) {
         console.log('error editing item', error);

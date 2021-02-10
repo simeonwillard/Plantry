@@ -43,6 +43,7 @@ function PantryPage() {
     const classes = useStyles();
 
     const [editItem, setEditItem] = useState({
+        id: '',
         item: '',
         staple: '',
         refrigerated: '',
@@ -65,6 +66,7 @@ function PantryPage() {
     const handleEdit = () => {
         console.log(editItem);
         setEdit(!edit);
+        dispatch({ type: 'EDIT_PANTRY', payload: editItem });
     }
 
     return (
@@ -138,7 +140,15 @@ function PantryPage() {
                                     {cupboard.staple ? <TableCell>Yes</TableCell> : <TableCell>No</TableCell>}
                                     {cupboard.refrigerated ? <TableCell>Yes</TableCell> : <TableCell>No</TableCell>}
                                     <TableCell>{cupboard.date_purchased}</TableCell>
-                                    <TableCell><PantryEdit edit={edit} setEdit={setEdit} cupboard={cupboard} /></TableCell>
+                                    <TableCell>
+                                        <PantryEdit
+                                            edit={edit}
+                                            setEdit={setEdit}
+                                            cupboard={cupboard}
+                                            editItem={editItem}
+                                            setEditItem={setEditItem}
+                                        />
+                                    </TableCell>
                                     <TableCell><PantryDelete cupboard={cupboard} /></TableCell>
                                 </TableRow>
                             ))}

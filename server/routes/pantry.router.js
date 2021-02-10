@@ -27,15 +27,15 @@ router.post('/', (req, res) => {
 
 // put to update a row in the pantry for edit feature
 router.put('/:id', rejectUnauthenticated, (req, res) => {
-    let id = req.params.id;
     let itemToEdit = req.body.editItem;
+    console.log(itemToEdit);
 
     const queryText = `
     UPDATE "pantry" SET "item" = $1, "staple" = $2, "refrigerated" = $3, "date_purchased" = $4
-    WHERE "id" = $5 AND "user_id" = $6;`;
+    WHERE "id" = $5;`;
 
     pool.query(queryText, [itemToEdit.item, itemToEdit.staple, itemToEdit.refrigerated, 
-                            itemToEdit.date_purchased, id, req.user.id])
+                            itemToEdit.date_purchased, itemToEdit.id])
     .then((result) => {
         res.sendStatus(200);
     })
