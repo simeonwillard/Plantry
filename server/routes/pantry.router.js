@@ -17,11 +17,24 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     })
 });
 
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
-  // POST route code here
+
+// post route to add an item to the pantry table
+router.post('/', rejectUnauthenticated, (req, res) => {
+    const itemToAdd = req.body.newItem;
+
+    const queryText = `
+    INSERT INTO "pantry" ("item", "staple", "refrigerated", "date_purchased", "user_id")
+    VALUES ($1, $2, $3, $4, $5);
+    `;
+
+    pool.query(queryText, [itemToAdd.item, itemToAdd.staple, itemToAdd.refrigerated, itemToAdd.date_purchased, req.user.id])
+    .then((result) => {
+        res.sendStatus(201)
+    })
+    .catch((error) => {
+        console.log('error in adding item to pantry', error);
+        res.sendStatus(500);
+    })
 });
 
 
@@ -32,10 +45,10 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
 
     const queryText = `
     UPDATE "pantry" SET "item" = $1, "staple" = $2, "refrigerated" = $3, "date_purchased" = $4
-    WHERE "id" = $5;`;
+    WHERE "id" = $5 AND "user_id" = $6;`;
 
     pool.query(queryText, [itemToEdit.item, itemToEdit.staple, itemToEdit.refrigerated, 
-                            itemToEdit.date_purchased, itemToEdit.id])
+                            itemToEdit.date_purchased, itemToEdit.id, req.user.id])
     .then((result) => {
         res.sendStatus(200);
     })

@@ -34,10 +34,20 @@ function* deletePantryItem(action) {
     }
 }
 
+function* addPantryItem(action) {
+    try {
+        const newItem = action.payload;
+        yield axios.post('/api/pantry', {newItem});
+        yield put({type: 'FETCH_PANTRY'});
+    } catch (error) {
+        console.log('error adding item to pantry', error);
+    }
+}
 
 function* pantrySaga() {
     yield takeEvery('FETCH_PANTRY', fetchPantry);
     yield takeEvery('EDIT_PANTRY', editPantry);
+    yield takeEvery('ADD_PANTRY_ITEM', addPantryItem)
     yield takeEvery('DELETE_PANTRY_ITEM', deletePantryItem);
 }
 
