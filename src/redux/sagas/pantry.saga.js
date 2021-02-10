@@ -12,20 +12,22 @@ function* fetchPantry() {
     }
 }
 
-// function* editPantry(action) {
-//     try {
-//         const itemID = action.payload.id;
-//         yield axios.put(`/api/pantry/${itemID}`);
-//     } catch (error) {
-        
-//     }
-// }
+function* editPantry(action) {
+    try {
+        const itemID = action.payload.id;
+        const editItem = action.payload;
+        yield axios.put(`/api/pantry/${itemID}`, { itemID, editItem });
+        yield put({ type: 'FETCH_PANTRY' });
+    } catch (error) {
+        console.log('error editing item', error);
+    }
+}
 
 
 
 function* pantrySaga() {
     yield takeEvery('FETCH_PANTRY', fetchPantry);
-    // yield takeEvery('EDIT_PANTRY', editPantry);
+    yield takeEvery('EDIT_PANTRY', editPantry);
 }
 
 export default pantrySaga;
