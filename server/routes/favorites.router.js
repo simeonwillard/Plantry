@@ -9,9 +9,9 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     const queryText = `SELECT * FROM "favorite_recipes" WHERE "user_id" = $1;`;
 
     pool.query(queryText, [req.user.id])
-        .then((response) => {
+        .then((result) => {
             console.log('current user: ', req.user);
-            res.send(response.rows);
+            res.send(result.rows);
         })
         .catch((error) => {
             console.log(`error getting favorites ${error}`);
@@ -31,7 +31,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
                         VALUES ($1, $2, $3, $4, $5);`;
 
     pool.query(queryText, [newFavorite.label, newFavorite.image, newFavorite.url, newFavorite.ingredientLines, req.user.id])
-    .then((response) => {
+    .then((result) => {
         res.sendStatus(200);
     })
     .catch((error) => {
@@ -45,7 +45,7 @@ router.delete('/:id',  rejectUnauthenticated, (req, res) => {
     const queryText = `DELETE FROM "favorite_recipes" WHERE "id" = $1;`;
 
     pool.query(queryText, [req.params.id])
-    .then((response) => {
+    .then((result) => {
         res.sendStatus(200);
     })
     .catch((error) => {

@@ -12,10 +12,10 @@ router.get('/', (req, res) => {
 
     // getting results from edamam api
     axios.get(`https://api.edamam.com/search?q=${query}&app_id=${process.env.APP_ID}&app_key=${process.env.API_KEY}`)
-    .then(response => {
+    .then(result => {
         console.log('got the recipes');
         // sending search results back to user
-        res.send(response.data.hits);
+        res.send(result.data.hits);
     })
     .catch(error => {
         console.log(`error searching for recipes ${error}`);
