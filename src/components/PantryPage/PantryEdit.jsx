@@ -7,9 +7,14 @@ function PantryEdit({ cupboard, edit, setEdit, editItem, setEditItem }) {
     const dispatch = useDispatch();
 
     const handleClick = (event) => {
-        // dispatch({ type: 'EDIT_PANTRY', payload: cupboard });
         setEdit(!edit);
-        setEditItem({id: cupboard.id});
+        setEditItem({
+            id: cupboard.id,
+            item: cupboard.item,
+            staple: cupboard.staple,
+            refrigerated: cupboard.refrigerated,
+            date_purchased: cupboard.date_purchased
+        });
 
         // console.log(edit)
     }

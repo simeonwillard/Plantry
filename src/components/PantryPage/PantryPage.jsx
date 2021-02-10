@@ -19,6 +19,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import ClearIcon from '@material-ui/icons/Clear';
 
 
 
@@ -63,10 +65,28 @@ function PantryPage() {
         setEditItem({ ...editItem, [event.target.name]: event.target.value });
     }
 
-    const handleEdit = () => {
+    const handleSubmitEdit = () => {
         console.log(editItem);
-        setEdit(!edit);
+        setEdit(true);
         dispatch({ type: 'EDIT_PANTRY', payload: editItem });
+        setEditItem({
+            id: '',
+            item: '',
+            staple: '',
+            refrigerated: '',
+            date_purchased: ''
+        });
+    }
+
+    const handleCancelEdit = () => {
+        setEdit(false);
+        setEditItem({
+            id: '',
+            item: '',
+            staple: '',
+            refrigerated: '',
+            date_purchased: ''
+        });
     }
 
     return (
@@ -114,8 +134,11 @@ function PantryPage() {
                                 onChange={handleChange}
                             />
                         </FormControl>
-                        <Button variant="contained" onClick={handleEdit}>
+                        <Button variant="contained" size="small" onClick={handleSubmitEdit}>
                             Update
+                        </Button>
+                        <Button variant="contained" size="small" onClick={handleCancelEdit}>
+                            cancel
                         </Button>
                     </div>
                 }
