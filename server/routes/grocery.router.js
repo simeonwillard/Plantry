@@ -56,4 +56,25 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     })
 })
 
+
+// delete route to delete a single grocery item
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+
+    const itemToDelete = req.params.id;
+
+    const queryText = `DELETE FROM "grocery_list" WHERE "id" = $1 AND "user_id" = $2;`;
+
+    pool.query(queryText, [itemToDelete, req.user.id])
+    .then((result) => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('error deleting a grocery item', error);
+        res.sendStatus(500);
+    })
+})
+
+
+
+
 module.exports = router;
