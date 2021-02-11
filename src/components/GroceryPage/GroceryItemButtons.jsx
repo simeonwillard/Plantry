@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { useDispatch } from 'react-redux';
 
 
-function GroceryItemButtons({ item }) {
+function GroceryItemButtons({ item, setReadyToEdit, readyToEdit, editItem, setEditItem }) {
 
     const dispatch = useDispatch();
 
@@ -20,6 +20,18 @@ function GroceryItemButtons({ item }) {
         dispatch({type: 'DELETE_GROCERY_ITEM', payload: item});
     }
 
+    const handleEdit = () => {
+        setReadyToEdit(!readyToEdit);
+        setEditItem({
+            id: item.id,
+            purchased: false,
+            name: item.name,
+            quantity: item.quantity,
+            unit: item.unit,
+            category_id: item.category_id
+        });
+    }
+
     return (
         <div>
             {!item.purchased &&
@@ -27,7 +39,7 @@ function GroceryItemButtons({ item }) {
                     <IconButton color="primary" onClick={handlePurchase}>
                         <DoneIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={handleEdit}>
                         <EditIcon />
                     </IconButton>
                     <IconButton color="secondary" onClick={handleDelete}>

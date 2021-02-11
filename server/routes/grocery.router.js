@@ -75,6 +75,30 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
 })
 
 
+// put route to update an item on the grocery list
+router.put('/item/:id', rejectUnauthenticated, (req, res) => {
+    let itemToEdit = req.body.editItem;
+    console.log(itemToEdit);
+
+    const queryText = `
+                        UPDATE "grocery_list" 
+                        SET ("name", "quantity", "unit", "category_id") = 
+                            ($1, $2, $3, $4)
+                        WHERE "id" = $5 AND "user_id" = $6;
+    `;
+
+    pool.query(queryText, [itemToEdit.name, itemToEdit.quantity, itemToEdit.unit,
+                            itemToEdit.category_id, itemToEdit.id, req.user.id])
+        .then((result) => {
+            res.sendStatus(200);
+        })
+        .catch((error) => {
+            console.log('error in updating edited item', error);
+            res.sendStatus(500);
+        })
+})
+
+
 
 
 module.exports = router;

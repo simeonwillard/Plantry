@@ -11,21 +11,34 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import GroceryItemButtons from "./GroceryItemButtons";
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Input from '@material-ui/core/Input';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: 275,
         textAlign: "center"
     },
     title: {
         fontSize: 24,
-        
+
     },
     pos: {
         marginBottom: 12,
     },
-    
-});
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 
 // component to display the user's grocery list 
@@ -34,23 +47,132 @@ function GroceryPage() {
     const classes = useStyles();
 
 
-    const [purchasedItem, setPurchasedItem] = useState(false);
+    const [editItem, setEditItem] = useState({
+        id: '',
+        purchased: '',
+        name: '',
+        quantity: '',
+        unit: '',
+        category_id: ''
+    });
+
+    const [readyToEdit, setReadyToEdit] = useState(false);
     const groceries = useSelector(state => state.groceryReducer);
+    const categories = useSelector(state => state.categoryReducer);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch({ type: 'FETCH_GROCERY_LIST' });
+        dispatch({ type: 'FETCH_GROCERY_CATEGORIES' });
     }, []);
 
 
-    const handlePurchase = () => {
-        setPurchasedItem(true);
+    const handleChange = (event) => {
+        setEditItem({ ...editItem, [event.target.name]: event.target.value });
+    }
+
+    const handleAddItem = (event) => {
+
+    }
+
+    const handleSubmitEdit = () => {
+
+        dispatch({type: 'EDIT_GROCERY_LIST', payload: editItem});
+        setReadyToEdit(false);
+        setEditItem({
+            id: '',
+            purchased: '',
+            name: '',
+            quantity: '',
+            unit: '',
+            category_id: ''
+        });
+    }
+
+    const handleCancelEdit = () => {
+        setReadyToEdit(false);
+        setEditItem({
+            id: '',
+            purchased: '',
+            name: '',
+            quantity: '',
+            unit: '',
+            category_id: ''
+        });
     }
 
 
     return (
         <div>
-            <h1>GroceryList</h1>
+            <div>
+                <h1>Grocery List</h1>
+            </div>
+            <br />
+            <br />
+            <div>
+                {!readyToEdit &&
+                    <div>
+                        <IconButton onClick={handleAddItem}>
+                            <AddBoxIcon fontSize="large" />
+                        </IconButton>
+                        <Button variant="contained">
+                            Clear
+                        </Button>
+                    </div>
+                }
+                {readyToEdit &&
+                    <div>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>Name</InputLabel>
+                            <Input
+                                type="text"
+                                value={editItem.name}
+                                name="name"
+                                onChange={handleChange}
+                            />
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>quantity</InputLabel>
+                            <Input
+                                value={editItem.quantity}
+                                name="quantity"
+                                onChange={handleChange}
+                            />
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>Unit</InputLabel>
+                            <Input
+                                value={editItem.unit}
+                                name="unit"
+                                onChange={handleChange}
+                            />
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>Category</InputLabel>
+                            <Select
+                                value={editItem.category_id}
+                                name="category_id"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={categories[0].id}>baking</MenuItem>
+                                <MenuItem value={categories[1].id}>canned</MenuItem>
+                                <MenuItem value={categories[2].id}>dairy</MenuItem>
+                                <MenuItem value={categories[3].id}>produce</MenuItem>
+                                <MenuItem value={categories[4].id}>meat</MenuItem>
+                                <MenuItem value={categories[5].id}>beverages</MenuItem>
+                                <MenuItem value={categories[6].id}>frozen</MenuItem>
+                                <MenuItem value={categories[7].id}>misc.</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Button variant="contained" size="small" onClick={handleSubmitEdit}>
+                            Update
+                        </Button>
+                        <Button variant="contained" size="small" onClick={handleCancelEdit}>
+                            cancel
+                        </Button>
+                    </div>
+                }
+            </div>
             <div>
                 <Grid container spacing={2}>
                     {groceries.map((item) => {
@@ -63,16 +185,22 @@ function GroceryPage() {
                                                 <b>{item.name}</b>
                                             </Typography>
                                             <Typography variant="h6" component="h4">
-                                                {item.quantity} <em>{item.unit}</em> 
-                                                
+                                                {item.quantity} <em>{item.unit}</em>
+
                                             </Typography>
-                                           <br />
+                                            <br />
                                             <Typography className={classes.pos} color="textSecondary">
                                                 {item.category}
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <GroceryItemButtons item={item}/>
+                                            <GroceryItemButtons
+                                                item={item}
+                                                readyToEdit={readyToEdit}
+                                                setReadyToEdit={setReadyToEdit}
+                                                editItem={editItem}
+                                                setEditItem={setEditItem}
+                                            />
                                         </CardActions>
                                     </Card>
                                 </Grid>
