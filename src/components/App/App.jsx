@@ -24,6 +24,7 @@ import SearchRecipes from '../SearchRecipes/SearchRecipes';
 import './App.css';
 import FavoritesPage from '../FavoritesPage/FavoritesPage';
 import PantryPage from '../PantryPage/PantryPage';
+import GroceryPage from '../GroceryPage/GroceryPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -91,6 +92,14 @@ function App() {
           path="/pantry"
           >
             <PantryPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          // logged in shows user's pantry
+          exact
+          path="/grocery-list"
+          >
+            <GroceryPage />
           </ProtectedRoute>
 
           {/* When a value is supplied for the authRedirect prop the user will

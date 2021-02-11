@@ -5,6 +5,7 @@ import userSaga from './user.saga';
 import searchResults from './searchResults.saga';
 import favoritesSaga from './favorites.saga';
 import pantrySaga from './pantry.saga';
+import grocerySaga from './grocery.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -21,5 +22,6 @@ export default function* rootSaga() {
     searchResults(),
     favoritesSaga(),
     pantrySaga(),
+    grocerySaga(),
   ]);
 }

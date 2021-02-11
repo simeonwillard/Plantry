@@ -12,6 +12,7 @@ const userRouter = require('./routes/user.router');
 const edamamApiRouter = require('./routes/edamam.api.router');
 const favoritesRouter = require('./routes/favorites.router');
 const pantryRouter = require('./routes/pantry.router');
+const groceryRouter = require('./routes/grocery.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -29,6 +30,7 @@ app.use('/api/user', userRouter);
 app.use('/api/edamam', edamamApiRouter);
 app.use('/api/favorites', favoritesRouter);
 app.use('/api/pantry', pantryRouter);
+app.use('/api/grocery', groceryRouter);
 
 // Serve static files
 app.use(express.static('build'));
