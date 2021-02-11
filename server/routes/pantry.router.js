@@ -8,13 +8,13 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     const queryText = `SELECT * FROM "pantry" WHERE "user_id" = $1 ORDER BY "id";`;
 
     pool.query(queryText, [req.user.id])
-    .then((result) => {
-        res.send(result.rows);
-    })
-    .catch((error) => {
-        console.log('error getting pantry', error);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch((error) => {
+            console.log('error getting pantry', error);
+            res.sendStatus(500);
+        })
 });
 
 
@@ -28,13 +28,13 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     `;
 
     pool.query(queryText, [itemToAdd.item, itemToAdd.staple, itemToAdd.refrigerated, itemToAdd.date_purchased, req.user.id])
-    .then((result) => {
-        res.sendStatus(201)
-    })
-    .catch((error) => {
-        console.log('error in adding item to pantry', error);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.sendStatus(201)
+        })
+        .catch((error) => {
+            console.log('error in adding item to pantry', error);
+            res.sendStatus(500);
+        })
 });
 
 
@@ -47,15 +47,15 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     UPDATE "pantry" SET "item" = $1, "staple" = $2, "refrigerated" = $3, "date_purchased" = $4
     WHERE "id" = $5 AND "user_id" = $6;`;
 
-    pool.query(queryText, [itemToEdit.item, itemToEdit.staple, itemToEdit.refrigerated, 
-                            itemToEdit.date_purchased, itemToEdit.id, req.user.id])
-    .then((result) => {
-        res.sendStatus(200);
-    })
-    .catch((error) => {
-        console.log('error in updating edited item', error);
-        res.sendStatus(500);
-    })
+    pool.query(queryText, [itemToEdit.item, itemToEdit.staple, itemToEdit.refrigerated,
+    itemToEdit.date_purchased, itemToEdit.id, req.user.id])
+        .then((result) => {
+            res.sendStatus(200);
+        })
+        .catch((error) => {
+            console.log('error in updating edited item', error);
+            res.sendStatus(500);
+        })
 })
 
 // delete route to delete a single row in the pantry table
@@ -65,13 +65,13 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
     const queryText = `DELETE FROM "pantry" WHERE "id" = $1 AND "user_id" = $2;`;
 
     pool.query(queryText, [itemToDelete, req.user.id])
-    .then((result) => {
-        res.sendStatus(200);
-    })
-    .catch((error) => {
-        console.log('error in deleting item from pantry', error);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.sendStatus(200);
+        })
+        .catch((error) => {
+            console.log('error in deleting item from pantry', error);
+            res.sendStatus(500);
+        })
 })
 
 router.delete('/', rejectUnauthenticated, (req, res) => {
@@ -79,11 +79,43 @@ router.delete('/', rejectUnauthenticated, (req, res) => {
     const queryText = `DELETE FROM "pantry" WHERE "staple" = false AND "user_id" = $1;`;
 
     pool.query(queryText, [req.user.id])
+        .then((result) => {
+            res.sendStatus(200);
+        })
+        .catch((error) => {
+            console.log('error clearing pantry', error);
+            res.sendStatus(500);
+        })
+})
+
+router.post('/from-grocery', rejectUnauthenticated, (req, res) => {
+
+    const itemToAdd = req.body.itemToAdd;
+
+    let refrigerated = true;
+
+    switch (itemToAdd.category) {
+        case 'baking':
+        case 'canned':
+        case 'misc.':
+            refrigerated = false;
+            break;
+
+        default:
+            true;
+    }
+
+    const queryText = `
+                        INSERT INTO "pantry" ("item", "staple", "refrigerated", "user_id")
+                        VALUES ($1, $2, $3, $4);
+                        `;
+
+    pool.query(queryText, [itemToAdd.name, false, refrigerated, req.user.id])
     .then((result) => {
-        res.sendStatus(200);
+        res.sendStatus(201);
     })
     .catch((error) => {
-        console.log('error clearing pantry', error);
+        console.log('error adding grocery item to pantry', error);
         res.sendStatus(500);
     })
 })

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GroceryList from './GroceryList';
 
@@ -9,24 +9,22 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-
-
+import IconButton from '@material-ui/core/IconButton';
+import GroceryItemButtons from "./GroceryItemButtons";
 
 const useStyles = makeStyles({
     root: {
         minWidth: 275,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
+        textAlign: "center"
     },
     title: {
-        fontSize: 14,
+        fontSize: 24,
+        
     },
     pos: {
         marginBottom: 12,
     },
+    
 });
 
 
@@ -36,12 +34,19 @@ function GroceryPage() {
     const classes = useStyles();
 
 
+    const [purchasedItem, setPurchasedItem] = useState(false);
     const groceries = useSelector(state => state.groceryReducer);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch({ type: 'FETCH_GROCERY_LIST' });
     }, []);
+
+
+    const handlePurchase = () => {
+        setPurchasedItem(true);
+    }
+
 
     return (
         <div>
@@ -52,25 +57,22 @@ function GroceryPage() {
                         return (
                             <div>
                                 <Grid key={item.id} item xs={3}>
-                                    <Card className={classes.root}>
+                                    <Card className={classes.root} variant="outlined">
                                         <CardContent>
-                                            <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                                {item.name}
+                                            <Typography className={classes.title} gutterBottom>
+                                                <b>{item.name}</b>
                                             </Typography>
-                                            <Typography variant="h5" component="h2">
-                                                {item.quantity} {item.unit}
+                                            <Typography variant="h6" component="h4">
+                                                {item.quantity} <em>{item.unit}</em> 
+                                                
                                             </Typography>
+                                           <br />
                                             <Typography className={classes.pos} color="textSecondary">
                                                 {item.category}
                                             </Typography>
-                                            <Typography variant="body2" component="p">
-
-                                                <br />
-                                                {'"a benevolent smile"'}
-                                            </Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <Button size="small">Learn More</Button>
+                                            <GroceryItemButtons item={item}/>
                                         </CardActions>
                                     </Card>
                                 </Grid>
