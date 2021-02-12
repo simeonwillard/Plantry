@@ -76,6 +76,16 @@ function* clearGroceryList() {
 }
 
 
+function* addToGrocery(action) {
+    try {
+        const itemToAdd = action.payload;
+        yield axios.post('/api/grocery', { itemToAdd });
+        yield put({ type: 'FETCH_GROCERY_LIST' })
+    } catch (error) {
+        console.log('error adding item to grocery list', error);
+    }
+}
+
 function* grocerySaga() {
     yield takeEvery('FETCH_GROCERY_LIST', fetchGroceryList);
     yield takeEvery('ITEM_PURCHASED', purchaseItem);
@@ -84,6 +94,7 @@ function* grocerySaga() {
     yield takeEvery('FETCH_GROCERY_CATEGORIES', fetchCategories);
     yield takeEvery('EDIT_GROCERY_LIST', editGrocery);
     yield takeEvery('CLEAR_GROCERY_LIST', clearGroceryList);
+    yield takeEvery('ADD_TO_GROCERY', addToGrocery)
 }
 
 export default grocerySaga;

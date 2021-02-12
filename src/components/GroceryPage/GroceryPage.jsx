@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import GroceryList from './GroceryList';
+import GroceryList from './GroceryAddForm';
 
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -18,6 +18,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import GroceryAddForm from "./GroceryAddForm";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,9 +71,7 @@ function GroceryPage() {
         setEditItem({ ...editItem, [event.target.name]: event.target.value });
     }
 
-    const handleAddItem = (event) => {
-
-    }
+ 
 
     const handleSubmitEdit = () => {
 
@@ -98,9 +97,7 @@ function GroceryPage() {
         });
     }
 
-    const handelClear = () => {
-        dispatch({type: 'CLEAR_GROCERY_LIST'});
-    }
+   
 
 
     return (
@@ -113,12 +110,7 @@ function GroceryPage() {
             <div>
                 {!readyToEdit &&
                     <div>
-                        <IconButton onClick={handleAddItem}>
-                            <AddBoxIcon fontSize="large" />
-                        </IconButton>
-                        <Button variant="contained" onClick={handelClear}>
-                            Clear
-                        </Button>
+                        <GroceryAddForm categories={categories}/>
                     </div>
                 }
                 {readyToEdit &&
@@ -180,7 +172,7 @@ function GroceryPage() {
                         return (
                             <div>
                                 <Grid key={item.id} item xs={3}>
-                                    <Card className={classes.root} variant="outlined">
+                                    <Card key={item.id} className={classes.root} variant="outlined">
                                         <CardContent>
                                             <Typography className={classes.title} gutterBottom>
                                                 <b>{item.name}</b>

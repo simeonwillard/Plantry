@@ -27,11 +27,25 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     })
 });
 
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
-  // POST route code here
+
+// post route to add an item to the grocery list
+router.post('/', rejectUnauthenticated, (req, res) => {
+
+    const itemToAdd = req.body.itemToAdd;
+
+    const queryText = `
+                        INSERT INTO "grocery_list" ("name", "quantity", "unit", "category_id", "user_id")
+                        VALUES ($1, $2, $3, $4, $5);
+                        `;
+    
+    pool.query(queryText, [itemToAdd.name, itemToAdd.quantity, itemToAdd.unit, itemToAdd.category_id, req.user.id])
+    .then((result) => {
+        res.sendStatus(201);
+    })
+    .catch((error) => {
+        console.log('error adding item to grocery list', error);
+        res.sendStatus(500);
+    })
 });
 
 
