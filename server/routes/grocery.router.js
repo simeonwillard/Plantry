@@ -99,6 +99,19 @@ router.put('/item/:id', rejectUnauthenticated, (req, res) => {
 })
 
 
+// delete route to clear grocery list
+router.delete('/', rejectUnauthenticated, (req, res) => {
 
+    const queryText = `DELETE FROM "grocery_list" WHERE "user_id" = $1;`;
+
+    pool.query(queryText, [req.user.id])
+    .then((result) => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('error clearing grocery list', error);
+        res.sendStatus(500);
+    })
+})
 
 module.exports = router;

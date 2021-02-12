@@ -48,7 +48,7 @@ function* deleteGroceryItem(action) {
 function* fetchCategories() {
     try {
         const response = yield axios.get('/api/category');
-        yield put({type: 'SET_GROCERY_CATEGORIES', payload: response.data})
+        yield put({ type: 'SET_GROCERY_CATEGORIES', payload: response.data })
     } catch (error) {
         console.log('error getting grocery categories', error);
     }
@@ -66,6 +66,16 @@ function* editGrocery(action) {
 }
 
 
+function* clearGroceryList() {
+    try {
+        yield axios.delete('/api/grocery');
+        yield put({ type: 'FETCH_GROCERY_LIST' });
+    } catch (error) {
+        console.log('error clearing the grocery list', error);
+    }
+}
+
+
 function* grocerySaga() {
     yield takeEvery('FETCH_GROCERY_LIST', fetchGroceryList);
     yield takeEvery('ITEM_PURCHASED', purchaseItem);
@@ -73,6 +83,7 @@ function* grocerySaga() {
     yield takeEvery('DELETE_GROCERY_ITEM', deleteGroceryItem);
     yield takeEvery('FETCH_GROCERY_CATEGORIES', fetchCategories);
     yield takeEvery('EDIT_GROCERY_LIST', editGrocery);
+    yield takeEvery('CLEAR_GROCERY_LIST', clearGroceryList);
 }
 
 export default grocerySaga;

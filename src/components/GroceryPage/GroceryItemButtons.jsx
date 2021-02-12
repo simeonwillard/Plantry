@@ -21,14 +21,13 @@ function GroceryItemButtons({ item, setReadyToEdit, readyToEdit, editItem, setEd
     }
 
     const handleEdit = () => {
-        setReadyToEdit(!readyToEdit);
+        setReadyToEdit(true);
         setEditItem({
             id: item.id,
-            purchased: false,
             name: item.name,
             quantity: item.quantity,
             unit: item.unit,
-            category_id: item.category_id
+            category_id: item.id
         });
     }
 

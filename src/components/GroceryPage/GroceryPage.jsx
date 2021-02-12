@@ -49,7 +49,6 @@ function GroceryPage() {
 
     const [editItem, setEditItem] = useState({
         id: '',
-        purchased: '',
         name: '',
         quantity: '',
         unit: '',
@@ -81,7 +80,6 @@ function GroceryPage() {
         setReadyToEdit(false);
         setEditItem({
             id: '',
-            purchased: '',
             name: '',
             quantity: '',
             unit: '',
@@ -93,12 +91,15 @@ function GroceryPage() {
         setReadyToEdit(false);
         setEditItem({
             id: '',
-            purchased: '',
             name: '',
             quantity: '',
             unit: '',
             category_id: ''
         });
+    }
+
+    const handelClear = () => {
+        dispatch({type: 'CLEAR_GROCERY_LIST'});
     }
 
 
@@ -115,7 +116,7 @@ function GroceryPage() {
                         <IconButton onClick={handleAddItem}>
                             <AddBoxIcon fontSize="large" />
                         </IconButton>
-                        <Button variant="contained">
+                        <Button variant="contained" onClick={handelClear}>
                             Clear
                         </Button>
                     </div>
