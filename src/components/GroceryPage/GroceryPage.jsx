@@ -85,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         margin: theme.spacing(1)
+    },
+    grid: {
+        padding: 40
     }
 }));
 
@@ -262,7 +265,7 @@ function GroceryPage() {
                 }
             </div>
             <div>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} className={classes.grid}>
                     {groceries.map((item) => {
                     //    let itemClass = item.category;
                     let itemClass = classNameGenerator(item);
