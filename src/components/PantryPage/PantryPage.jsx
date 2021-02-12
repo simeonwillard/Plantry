@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PantryDelete from "./PantryDelete";
-import PantryEdit from "./PantryEdit";
-import PantryAdd from './PantryAdd';
+import PantryDelete from "../PantryDelete/PantryDelete";
+import PantryEdit from "../PantryEdit/PantryEdit";
+import PantryAdd from '../PantryAdd/PantryAdd';
 
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';

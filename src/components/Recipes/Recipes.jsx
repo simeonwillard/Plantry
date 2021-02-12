@@ -19,7 +19,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
 
-import RecipeDetails from './RecipeDetails';
+import RecipeDetails from '../RecipeDetails/RecipeDetails';
 import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({

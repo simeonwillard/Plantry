@@ -1,7 +1,10 @@
+// import from dependencies 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import GroceryList from './GroceryAddForm';
-
+// import from components 
+import GroceryAddForm from "../GroceryAddForm/GroceryAddForm";
+import GroceryItemButtons from "../GroceryItemButtons/GroceryItemButtons";
+// import from material ui
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -9,21 +12,17 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import GroceryItemButtons from "./GroceryItemButtons";
-import AddBoxIcon from '@material-ui/icons/AddBox';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import GroceryAddForm from "./GroceryAddForm";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        minWidth: 275,
-        textAlign: "center"
+        minWidth: 210,
+        textAlign: "center",
+        margin: 20
     },
     title: {
         fontSize: 24,
@@ -45,9 +44,11 @@ const useStyles = makeStyles((theme) => ({
 // component to display the user's grocery list 
 function GroceryPage() {
 
+    // use material ui styling
     const classes = useStyles();
 
 
+    // variable to store the edited item
     const [editItem, setEditItem] = useState({
         id: '',
         name: '',
@@ -56,27 +57,33 @@ function GroceryPage() {
         category_id: ''
     });
 
+    // variable for conditional rendering of the edit
     const [readyToEdit, setReadyToEdit] = useState(false);
+    // storing the user's grocery list from the db
     const groceries = useSelector(state => state.groceryReducer);
+    // storing the grocery categories for the select form
     const categories = useSelector(state => state.categoryReducer);
     const dispatch = useDispatch();
 
+    // populating the grocery list and category reducers on page load
     useEffect(() => {
         dispatch({ type: 'FETCH_GROCERY_LIST' });
         dispatch({ type: 'FETCH_GROCERY_CATEGORIES' });
     }, []);
 
 
+    // storing the user's edit inputs in editItem
     const handleChange = (event) => {
         setEditItem({ ...editItem, [event.target.name]: event.target.value });
     }
 
- 
-
+    // dispatching the updated item to the db
     const handleSubmitEdit = () => {
 
         dispatch({type: 'EDIT_GROCERY_LIST', payload: editItem});
+        // conditional render
         setReadyToEdit(false);
+        // resetting the editItem for next edit
         setEditItem({
             id: '',
             name: '',
@@ -86,8 +93,11 @@ function GroceryPage() {
         });
     }
 
+    // cancels user's edit
     const handleCancelEdit = () => {
+        // conditional render
         setReadyToEdit(false);
+        // resetting the editItem for next edit
         setEditItem({
             id: '',
             name: '',
@@ -103,7 +113,7 @@ function GroceryPage() {
     return (
         <div>
             <div>
-                <h1>Grocery List</h1>
+                <h1 >Grocery List</h1>
             </div>
             <br />
             <br />

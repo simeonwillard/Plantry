@@ -17,7 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
-import FavoriteDetails from "./FavoriteDetails";
+import FavoriteDetails from "../FavoriteDetails/FavoriteDetails";
 
 
 
