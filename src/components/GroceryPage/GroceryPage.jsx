@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import from components 
 import GroceryAddForm from "../GroceryAddForm/GroceryAddForm";
 import GroceryItemButtons from "../GroceryItemButtons/GroceryItemButtons";
+import './GroceryPage.css'
 // import from material ui
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -17,12 +18,56 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
+import { red } from '@material-ui/core/colors/'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    baking: {
+        backgroundColor: "lightyellow",
         minWidth: 210,
         textAlign: "center",
-        margin: 20
+        margin: 20,
+    },
+    canned: {
+        minWidth: 210,
+        textAlign: "center",
+        margin: 20,
+        backgroundColor: "#ffcc80",
+    }, 
+    dairy: {
+        minWidth: 210,
+        textAlign: "center",
+        margin: 20,
+        backgroundColor: "#80cbc4",
+    },
+    produce: {
+        minWidth: 210,
+        textAlign: "center",
+        margin: 20,
+        backgroundColor: "lightgreen",
+    },
+    meat: {
+        minWidth: 210,
+        textAlign: "center",
+        margin: 20,
+        backgroundColor: "lightpink",
+    },
+    frozen: {
+        minWidth: 210,
+        textAlign: "center",
+        margin: 20,
+        backgroundColor: "lightblue",
+    },
+    misc: {
+        minWidth: 210,
+        textAlign: "center",
+        margin: 20,
+        backgroundColor: "lightgrey",
+    },
+    beverages: {
+        minWidth: 210,
+        textAlign: "center",
+        margin: 20,
+        backgroundColor: "#e1bee7",
     },
     title: {
         fontSize: 24,
@@ -38,7 +83,11 @@ const useStyles = makeStyles((theme) => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
+    button: {
+        margin: theme.spacing(1)
+    }
 }));
+
 
 
 // component to display the user's grocery list 
@@ -47,6 +96,32 @@ function GroceryPage() {
     // use material ui styling
     const classes = useStyles();
 
+    function classNameGenerator(item) {
+
+                        
+        let itemClass = '';
+    
+        switch (item.category) {
+            case 'baking':
+                return itemClass = classes.baking;
+            case 'canned':
+                return itemClass = classes.canned;
+            case 'dairy':
+                return itemClass = classes.dairy;
+            case 'produce':
+                return itemClass = classes.produce;
+            case 'meat':
+                return itemClass = classes.meat;
+            case 'beverages':
+                return itemClass = classes.beverages;
+            case 'frozen':
+                return itemClass = classes.frozen;
+            case 'misc.':
+                return itemClass = classes.misc;
+            default:
+                return itemClass;
+        }
+    }
 
     // variable to store the edited item
     const [editItem, setEditItem] = useState({
@@ -80,7 +155,7 @@ function GroceryPage() {
     // dispatching the updated item to the db
     const handleSubmitEdit = () => {
 
-        dispatch({type: 'EDIT_GROCERY_LIST', payload: editItem});
+        dispatch({ type: 'EDIT_GROCERY_LIST', payload: editItem });
         // conditional render
         setReadyToEdit(false);
         // resetting the editItem for next edit
@@ -107,24 +182,24 @@ function GroceryPage() {
         });
     }
 
-   
+
 
 
     return (
         <div>
             <div>
-                <h1 >Grocery List</h1>
+                <h1 id="pageHeader">Grocery List</h1>
             </div>
             <br />
             <br />
             <div>
                 {!readyToEdit &&
                     <div>
-                        <GroceryAddForm categories={categories}/>
+                        <GroceryAddForm categories={categories} />
                     </div>
                 }
                 {readyToEdit &&
-                    <div>
+                    <div id="editForm">
                         <FormControl className={classes.formControl}>
                             <InputLabel>Name</InputLabel>
                             <Input
@@ -167,10 +242,20 @@ function GroceryPage() {
                                 <MenuItem value={categories[7].id}>misc.</MenuItem>
                             </Select>
                         </FormControl>
-                        <Button variant="contained" size="small" onClick={handleSubmitEdit}>
+                        <Button
+                            className={classes.button}
+                            variant="contained" size="small"
+                            onClick={handleSubmitEdit}
+                            color="primary"
+                        >
                             Update
                         </Button>
-                        <Button variant="contained" size="small" onClick={handleCancelEdit}>
+                        <Button
+                            variant="contained"
+                            size="small"
+                            onClick={handleCancelEdit}
+                            color="secondary"
+                        >
                             cancel
                         </Button>
                     </div>
@@ -179,10 +264,17 @@ function GroceryPage() {
             <div>
                 <Grid container spacing={2}>
                     {groceries.map((item) => {
+                    //    let itemClass = item.category;
+                    let itemClass = classNameGenerator(item);
+                       console.log(itemClass)
                         return (
+
                             <div>
                                 <Grid key={item.id} item xs={3}>
-                                    <Card key={item.id} className={classes.root} variant="outlined">
+                                    <Card 
+                                    key={item.id} 
+                                    className={itemClass} 
+                                    variant="outlined">
                                         <CardContent>
                                             <Typography className={classes.title} gutterBottom>
                                                 <b>{item.name}</b>

@@ -14,7 +14,8 @@ router.get('/', rejectUnauthenticated, (req, res) => {
                     FROM "grocery_list" 
                     JOIN "grocery_category" ON "grocery_category".id = "grocery_list".category_id
                     JOIN "user" ON "user".id = "grocery_list".user_id
-                    WHERE "grocery_list".user_id = $1;
+                    WHERE "grocery_list".user_id = $1
+                    ORDER BY "category";
                     `;
 
     pool.query(queryText, [req.user.id])
