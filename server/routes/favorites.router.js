@@ -26,11 +26,21 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const newFavorite = req.body.newFavorite;
     // console.log(newFavorite)
 
+    let ingredients = newFavorite.ingredients;
+    console.log(ingredients)
+    
+    let newArray = [];
+    for (let i = 1; i < ingredients.length; i++) {
+            
+            newArray.push(ingredients[i].text);
+            console.log('newArray is: ', newArray);
+    }
+
     // inserting into favorite_recipes table in db
     const queryText = `INSERT INTO "favorite_recipes" ("title", "image", "url", "ingredients", "user_id")
                         VALUES ($1, $2, $3, $4, $5);`;
 
-    pool.query(queryText, [newFavorite.label, newFavorite.image, newFavorite.url, newFavorite.ingredientLines, req.user.id])
+    pool.query(queryText, [newFavorite.label, newFavorite.image, newFavorite.url, newArray, req.user.id])
     .then((result) => {
         res.sendStatus(200);
     })
