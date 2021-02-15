@@ -57,7 +57,7 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
 
     const queryText = `
                         UPDATE "grocery_list" 
-                        SET "purchased" = TRUE 
+                        SET "purchased" = NOT purchased 
                         WHERE "id" = $1 AND "user_id" = $2;
                         `;
 

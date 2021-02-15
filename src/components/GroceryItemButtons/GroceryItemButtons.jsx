@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 25,
     },
     purchased: {
-        marginLeft: 17
+        marginLeft: 50
     }
 }));
 
@@ -33,23 +33,9 @@ function GroceryItemButtons({ item, setReadyToEdit, readyToEdit, editItem, setEd
     // when user clicks the "check" marks item as purchased and puts the item
     // into the user's pantry
     const handlePurchase = () => {
-        // sweetalert dialogue to confirm the user purchasing an item
-        Swal.fire({
-            title: 'are you sure you want to purchase this item?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'yes, purchase!',
-            cancelButtonText: 'no, dont purchase'
-        }).then((result) => {
-            if (result.value) {
-                dispatch({ type: 'ITEM_PURCHASED', payload: item });
-                dispatch({ type: 'ADD_ITEM_TO_PANTRY', payload: item });
-                Swal.fire('Item Purchased!');
-            } else {
-                Swal.fire('Purchase Cancelled');
-            }
-        });
-        
+        // dispatches item to mark as purchased
+        dispatch({ type: 'ITEM_PURCHASED', payload: item });
+        dispatch({ type: 'ADD_ITEM_TO_PANTRY', payload: item });
     }
 
     // deletes item from grocery list
@@ -71,8 +57,23 @@ function GroceryItemButtons({ item, setReadyToEdit, readyToEdit, editItem, setEd
 
     // conditionally renders and undoes what handelPurchase does
     const handleUndo = () => {
-        //dispatch({type: 'UNDO_PURCHASE', payload: item});
         //dispatch({type: 'DELETE_ITEM_FROM_PANTRY', payload: item});
+        // dispatches item to mark as un-purchased 
+        Swal.fire({
+            title: 'are you sure?',
+            text: 'this will undo the purchase',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'blue',
+            cancelButtonColor: 'red',
+            confirmButtonText: 'Yes, Undo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('undone!');
+                dispatch({ type: 'ITEM_PURCHASED', payload: item });
+            }
+        })
+
     }
 
     return (
@@ -98,18 +99,18 @@ function GroceryItemButtons({ item, setReadyToEdit, readyToEdit, editItem, setEd
             }
             {item.purchased &&
                 <div className={classes.purchased}>
-                    <p><b>Purchased!</b>
-                        <Tooltip title="Undo Purchase">
-                            <IconButton color="primary" onClick={handleUndo}>
-                                <UndoIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete Item">
-                            <IconButton color="secondary" size="small" onClick={handleDelete}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </p>
+                    <p><b>Purchased!</b></p>
+                    <Tooltip title="Undo Purchase">
+                        <IconButton color="primary" onClick={handleUndo}>
+                            <UndoIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete Item">
+                        <IconButton color="secondary" size="small" onClick={handleDelete}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+
                 </div>
             }
 

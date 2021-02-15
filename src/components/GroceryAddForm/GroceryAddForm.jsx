@@ -12,6 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 // import from dependencies
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 
 // styles
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +76,20 @@ function GroceryAddForm({ categories }) {
 
     // deleting entire grocery list
     const handleClear = () => {
-        dispatch({ type: 'CLEAR_GROCERY_LIST' });
+        Swal.fire({
+            title: 'are you sure?',
+            text: 'this will delete your entire list',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'blue',
+            cancelButtonColor: 'red',
+            confirmButtonText: 'Yes, delete list!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('deleted!');
+                dispatch({ type: 'CLEAR_GROCERY_LIST' });
+            }
+        })
     }
     // canceling the add item form and conditional rendering
     const handleCancelAdd = () => {
