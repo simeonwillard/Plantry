@@ -60,7 +60,7 @@ function SearchRecipes() {
                     <Grid  container spacing={3} style={{ marginLeft: 20, marginRight: 20 }}>
                         {searchResults && searchResults.map((recipe, i) => {
                             return (
-                                <Grid key={i} item xs={4}>
+                                <Grid key={i} item xs={3}>
                                     <Recipes key={i} recipe={recipe} />
                                 </Grid>
                             )

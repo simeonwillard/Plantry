@@ -53,6 +53,7 @@ function PantryAdd() {
     // variable to add to the table
     const [addItem, setAddItem] = useState({
         item: '',
+        cabinet: '',
         staple: '',
         refrigerated: '',
         date_purchased: ''
@@ -77,6 +78,7 @@ function PantryAdd() {
         // resets addItem variable for next add
         setAddItem({
             item: '',
+            cabinet: '',
             staple: '',
             refrigerated: '',
             date_purchased: ''
@@ -89,6 +91,7 @@ function PantryAdd() {
         // resets addItem variable for next add
         setAddItem({
             item: '',
+            cabinet: '',
             staple: '',
             refrigerated: '',
             date_purchased: ''
@@ -129,6 +132,16 @@ function PantryAdd() {
                             type="text"
                             value={addItem.item}
                             name="item"
+                            onChange={handleChange}
+                            style={{padding: 3}}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel>Cabinet</InputLabel>
+                        <Input
+                            type="text"
+                            value={addItem.cabinet}
+                            name="cabinet"
                             onChange={handleChange}
                             style={{padding: 3}}
                         />

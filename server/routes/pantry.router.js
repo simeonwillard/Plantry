@@ -23,11 +23,11 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const itemToAdd = req.body.newItem;
 
     const queryText = `
-    INSERT INTO "pantry" ("item", "staple", "refrigerated", "date_purchased", "user_id")
-    VALUES ($1, $2, $3, $4, $5);
+    INSERT INTO "pantry" ("item", "cabinet", "staple", "refrigerated", "date_purchased", "user_id")
+    VALUES ($1, $2, $3, $4, $5, $6);
     `;
 
-    pool.query(queryText, [itemToAdd.item, itemToAdd.staple, itemToAdd.refrigerated, itemToAdd.date_purchased, req.user.id])
+    pool.query(queryText, [itemToAdd.item, itemToAdd.cabinet, itemToAdd.staple, itemToAdd.refrigerated, itemToAdd.date_purchased, req.user.id])
         .then((result) => {
             res.sendStatus(201)
         })
@@ -44,10 +44,10 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     console.log(itemToEdit);
 
     const queryText = `
-    UPDATE "pantry" SET "item" = $1, "staple" = $2, "refrigerated" = $3, "date_purchased" = $4
-    WHERE "id" = $5 AND "user_id" = $6;`;
+    UPDATE "pantry" SET "item" = $1, "cabinet" = $2, "staple" = $3, "refrigerated" = $4, "date_purchased" = $5
+    WHERE "id" = $6 AND "user_id" = $7;`;
 
-    pool.query(queryText, [itemToEdit.item, itemToEdit.staple, itemToEdit.refrigerated,
+    pool.query(queryText, [itemToEdit.item, itemToEdit.cabinet, itemToEdit.staple, itemToEdit.refrigerated,
     itemToEdit.date_purchased, itemToEdit.id, req.user.id])
         .then((result) => {
             res.sendStatus(200);
@@ -120,4 +120,20 @@ router.post('/from-grocery', rejectUnauthenticated, (req, res) => {
     })
 })
 
+// route to delete new purchased item from pantry upon user clicking "undo"
+router.delete('/purchase', rejectUnauthenticated, (req, res) => {
+
+    const queryText = `DELETE FROM "pantry" WHERE "cabinet" = 'just purchased' AND "item" = $1 AND "user_id" = $2;`;
+
+    const itemToRemove = req.body.itemToDelete;
+
+    pool.query(queryText, [itemToRemove.name, req.user.id])
+    .then((result) => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('error removing purchased item from pantry', error);
+        res.sendStatus(500);
+    })
+})
 module.exports = router;

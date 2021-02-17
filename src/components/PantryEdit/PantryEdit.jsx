@@ -13,6 +13,7 @@ function PantryEdit({ cupboard, edit, setEdit, editItem, setEditItem }) {
         setEditItem({
             id: cupboard.id,
             item: cupboard.item,
+            cabinet: cupboard.cabinet,
             staple: cupboard.staple,
             refrigerated: cupboard.refrigerated,
             date_purchased: cupboard.date_purchased

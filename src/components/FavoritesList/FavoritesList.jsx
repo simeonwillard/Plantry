@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import FavoriteDetails from "../FavoriteDetails/FavoriteDetails";
+import ToolTip from '@material-ui/core/Tooltip';
 
 
 
@@ -53,7 +54,7 @@ function FavoritesList({ favorite }) {
     const dispatch = useDispatch();
 
 
-   
+
 
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
@@ -76,9 +77,11 @@ function FavoritesList({ favorite }) {
                              </Avatar>
                     }
                     action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                        </IconButton>
+                        <ToolTip title="does nothing atm">
+                            <IconButton aria-label="settings">
+                                <MoreVertIcon />
+                            </IconButton>
+                        </ToolTip>
                     }
                     title={favorite.title}
                 // subheader="September 14, 2016"
@@ -89,17 +92,28 @@ function FavoritesList({ favorite }) {
                     title={favorite.title}
                 />
                 <CardContent>
-                    <Button variant="contained" size="small" color="primary" href={favorite.url}>
+                    <Button
+                        variant="contained"
+                        size="small"
+                        color="primary"
+                        target="_blank"
+                        rel="noopener"
+                        href={favorite.url}>
                         Go to Recipe
-                        </Button>
+                    </Button>
+                    <h5 style={{ fontWeight: 'normal' }}><b>Source:</b> {favorite.source}</h5>
+                    <h5 style={{ fontWeight: 'normal' }}><b>Calories:</b> {favorite.calories}</h5>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton
-                        aria-label="add to favorites"
-                    onClick={(event) => dispatch({ type: 'DELETE_FAVORITE', payload: favorite })}
-                    >
-                        <DeleteIcon />
-                    </IconButton>
+                    <ToolTip title="Delete Favorite">
+                        <IconButton
+                            aria-label="add to favorites"
+                            onClick={() => dispatch({ type: 'DELETE_FAVORITE', payload: favorite })}
+                            color="secondary"
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </ToolTip>
                     <IconButton
                         className={clsx(classes.expand, {
                             [classes.expandOpen]: expanded,
@@ -117,7 +131,7 @@ function FavoritesList({ favorite }) {
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography paragraph>Ingredients</Typography>
-                            <FavoriteDetails ingredients={favorite.ingredients} />
+                        <FavoriteDetails ingredients={favorite.ingredients} />
                     </CardContent>
                 </Collapse>
             </Card>

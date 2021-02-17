@@ -67,6 +67,7 @@ function PantryPage() {
     const [editItem, setEditItem] = useState({
         id: '',
         item: '',
+        cabinet: '',
         staple: '',
         refrigerated: '',
         date_purchased: ''
@@ -97,6 +98,7 @@ function PantryPage() {
         setEditItem({
             id: '',
             item: '',
+            cabinet: '',
             staple: '',
             refrigerated: '',
             date_purchased: ''
@@ -110,6 +112,7 @@ function PantryPage() {
         setEditItem({
             id: '',
             item: '',
+            cabinet: '',
             staple: '',
             refrigerated: '',
             date_purchased: ''
@@ -134,7 +137,17 @@ function PantryPage() {
                                 value={editItem.item}
                                 name="item"
                                 onChange={handleChange}
-                                style={{padding: 3}}
+                                style={{ padding: 3 }}
+                            />
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>Cabinet</InputLabel>
+                            <Input
+                                type="text"
+                                value={editItem.cabinet}
+                                name="cabinet"
+                                onChange={handleChange}
+                                style={{ padding: 3 }}
                             />
                         </FormControl>
                         <FormControl className={classes.formControl}>
@@ -143,7 +156,7 @@ function PantryPage() {
                                 value={editItem.staple}
                                 name="staple"
                                 onChange={handleChange}
-                                style={{padding: 3}}
+                                style={{ padding: 3 }}
                             >
                                 <MenuItem value={true}>Yes</MenuItem>
                                 <MenuItem value={false}>No</MenuItem>
@@ -155,7 +168,7 @@ function PantryPage() {
                                 value={editItem.refrigerated}
                                 name="refrigerated"
                                 onChange={handleChange}
-                                style={{padding: 3}}
+                                style={{ padding: 3 }}
                             >
                                 <MenuItem value={true}>Yes</MenuItem>
                                 <MenuItem value={false}>No</MenuItem>
@@ -171,23 +184,23 @@ function PantryPage() {
                             />
                         </FormControl>
                         <ToolTip title="update pantry">
-                            <Button 
-                            variant="contained" 
-                            size="small" 
-                            onClick={handleSubmitEdit}
-                            color="primary"
-                            style={{marginLeft: 10}}
+                            <Button
+                                variant="contained"
+                                size="small"
+                                onClick={handleSubmitEdit}
+                                color="primary"
+                                style={{ marginLeft: 10 }}
                             >
                                 Update
                             </Button>
                         </ToolTip>
                         <ToolTip title="cancel edit">
-                            <Button 
-                            variant="contained" 
-                            size="small" 
-                            onClick={handleCancelEdit}
-                            color="secondary"
-                            style={{marginLeft: 10}}
+                            <Button
+                                variant="contained"
+                                size="small"
+                                onClick={handleCancelEdit}
+                                color="secondary"
+                                style={{ marginLeft: 10 }}
                             >
                                 cancel
                             </Button>
@@ -201,6 +214,7 @@ function PantryPage() {
                         <TableHead className={classes.tHead}>
                             <TableRow >
                                 <TableCell style={{ fontSize: 20 }}><b>Item</b></TableCell>
+                                <TableCell style={{ fontSize: 20 }}><b>Cabinet</b></TableCell>
                                 <TableCell style={{ fontSize: 20 }}><b>Staple</b></TableCell>
                                 <TableCell style={{ fontSize: 20 }}><b>Refrigerated</b></TableCell>
                                 <TableCell style={{ fontSize: 20 }}><b>Date Purchased</b></TableCell>
@@ -212,6 +226,7 @@ function PantryPage() {
                             {pantry.map((cupboard) => (
                                 <TableRow key={cupboard.id}>
                                     <TableCell>{cupboard.item}</TableCell>
+                                    <TableCell>{cupboard.cabinet}</TableCell>
                                     {cupboard.staple ? <TableCell>Yes</TableCell> : <TableCell>No</TableCell>}
                                     {cupboard.refrigerated ? <TableCell>Yes</TableCell> : <TableCell>No</TableCell>}
                                     <TableCell>{new Date(cupboard.date_purchased).toLocaleDateString("en-us")}</TableCell>

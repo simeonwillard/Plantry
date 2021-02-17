@@ -71,6 +71,7 @@ function GroceryItemButtons({ item, setReadyToEdit, readyToEdit, editItem, setEd
             if (result.isConfirmed) {
                 Swal.fire('undone!');
                 dispatch({ type: 'ITEM_PURCHASED', payload: item });
+                dispatch({ type: 'DELETE_PANTRY_PURCHASE', payload: item });
             }
         })
 

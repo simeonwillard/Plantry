@@ -86,6 +86,16 @@ function* addToGrocery(action) {
     }
 }
 
+function* deletePantryPurchase(action) {
+    try {
+        const itemToDelete = action.payload;
+        yield axios.delete('/api/pantry/purchase', { itemToDelete });
+    } catch (error) {
+        console.log('error deleting purchase from pantry', error);
+    }
+
+}
+
 function* grocerySaga() {
     yield takeEvery('FETCH_GROCERY_LIST', fetchGroceryList);
     yield takeEvery('ITEM_PURCHASED', purchaseItem);
@@ -94,7 +104,8 @@ function* grocerySaga() {
     yield takeEvery('FETCH_GROCERY_CATEGORIES', fetchCategories);
     yield takeEvery('EDIT_GROCERY_LIST', editGrocery);
     yield takeEvery('CLEAR_GROCERY_LIST', clearGroceryList);
-    yield takeEvery('ADD_TO_GROCERY', addToGrocery)
+    yield takeEvery('ADD_TO_GROCERY', addToGrocery);
+    yield takeEvery('DELETE_PANTRY_PURCHASE', deletePantryPurchase);
 }
 
 export default grocerySaga;
