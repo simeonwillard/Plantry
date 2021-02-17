@@ -29,7 +29,7 @@ function* purchaseItem(action) {
 function* addItemToPantry(action) {
     try {
         const itemToAdd = action.payload;
-        yield axios.post('api/pantry/from-grocery', { itemToAdd });
+        yield axios.post('/api/grocery-to-pantry', { itemToAdd });
     } catch (error) {
         console.log('error adding grocery item to the pantry', error);
     }
@@ -89,7 +89,8 @@ function* addToGrocery(action) {
 function* deletePantryPurchase(action) {
     try {
         const itemToDelete = action.payload;
-        yield axios.delete('/api/pantry/purchase', { itemToDelete });
+        console.log(itemToDelete)
+        yield axios.put('/api/grocery-to-pantry', { itemToDelete });
     } catch (error) {
         console.log('error deleting purchase from pantry', error);
     }

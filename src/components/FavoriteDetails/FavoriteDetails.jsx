@@ -1,19 +1,21 @@
 
 
-function FavoriteDetails({ ingredients }) {
+function FavoriteDetails({ favorite }) {
 
 
     return (
-        // <h6>{ingredients}</h6>
-        <p>{ingredients}</p>
+        <div>
+            <h5>Ingredients</h5>
+
+            {favorite.ingredients.map((ingredient, i) => (
+                <ul key={i}>
+                    <li>{ingredient}</li>
+                </ul>
+            ))}
+
+        </div>
     )
-    // return ingredients.map((ingredient, i) => {
-    //     return (
-    //         <ul key={i}>
-    //             <li>{ingredient.text}</li>
-    //         </ul>
-    //     )
-    // })
+
 
 }
 

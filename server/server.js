@@ -14,6 +14,7 @@ const favoritesRouter = require('./routes/favorites.router');
 const pantryRouter = require('./routes/pantry.router');
 const groceryRouter = require('./routes/grocery.router');
 const categoryRouter = require('./routes/category.router');
+const groceryToPantryRouter = require('./routes/groceryToPantry.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -33,6 +34,7 @@ app.use('/api/favorites', favoritesRouter);
 app.use('/api/pantry', pantryRouter);
 app.use('/api/grocery', groceryRouter);
 app.use('/api/category', categoryRouter);
+app.use('/api/grocery-to-pantry', groceryToPantryRouter);
 
 // Serve static files
 app.use(express.static('build'));

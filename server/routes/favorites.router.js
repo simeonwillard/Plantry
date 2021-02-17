@@ -8,47 +8,19 @@ require('dotenv').config();
 // get favorites from db
 router.get('/', rejectUnauthenticated, (req, res) => {
     // selecting favorite_recipes of the specific user
-    const queryText = `SELECT * FROM "favorite_recipes" WHERE "user_id" = $1;`;
-
-    // variable to store favorites from database
-    let favoriteRecipes = [];
+    const queryText = `
+                        SELECT "favorite_recipes".*, array_agg("ingredients".name) ingredients FROM "favorite_recipes"
+                        JOIN "ingredients" ON "ingredients".recipe_id = "favorite_recipes".id
+                        WHERE "favorite_recipes".user_id = $1
+                        GROUP BY "favorite_recipes".id;`;
 
     pool.query(queryText, [req.user.id])
-        .then((result) => {
-
-            favoriteRecipes.push(result.rows);
-
-            // looping over favorites to search edamam API for recipes
-            for (let recipe of favoriteRecipes[0]) {
-                // encoding recipe URI for edamam API
-                // console.log(recipe.recipe);
-                let id = encodeURIComponent(recipe.recipe);
-                let response = [];
-                // console.log(id)
-                // searching edamam API for results
-            
-                axios.get(`https://api.edamam.com/search?app_id=${process.env.APP_ID}&app_key=${process.env.API_KEY}&r=${id}`)
-                    .then((result) => {
-                        // console.log('got the recipes');
-                        // console.log(result.data)
-                        // sending search results back to user
-                        // return res.send(result.data);
-                        
-                    })
-                    // .catch(error => {
-                    //     console.log(`error getting favorite recipes ${error}`);
-                    //     res.sendStatus(500);
-                    // })
-            }
-            
-        })
-        .catch((error) => {
-            console.log(`error getting favorites ${error}`);
-            res.sendStatus(500);
-        });
-
-
-
+    .then((result) => {
+        res.send(result.rows);
+    })
+    .catch((error) => {
+        console.log('error getting favorites', error);
+    });
 });
 
 
@@ -58,12 +30,25 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const newFavorite = req.body.newFavorite;
 
     // inserting into favorite_recipes table in db
-    const queryText = `INSERT INTO "favorite_recipes" ("recipe", "user_id")
-                        VALUES ($1, $2);`;
+    const insertIntoFavoriteRecipes = `INSERT INTO "favorite_recipes" ("label", "image", "url", "source", "calories", "user_id")
+                                       VALUES ($1, $2, $3, $4, $5, $6)
+                                       RETURNING "id";`;
 
-    pool.query(queryText, [newFavorite.uri, req.user.id])
+    pool.query(insertIntoFavoriteRecipes, [newFavorite.label, newFavorite.image, newFavorite.url, 
+                                            newFavorite.source, newFavorite.calories, req.user.id])
         .then((result) => {
-            res.sendStatus(200);
+            console.log('new recipe id: ', result.rows[0].id);
+
+            const createdRecipeId = result.rows[0].id;
+
+            for (let ingredient of newFavorite.ingredientLines) {
+            
+            const insertIntoIngredientsQuery = `INSERT INTO "ingredients" ("name", "recipe_id")
+                                                VALUES ($1, $2);`;
+            
+            pool.query(insertIntoIngredientsQuery, [ingredient, createdRecipeId])
+            }
+            
         })
         .catch((error) => {
             console.log(`error in adding favorite ${error}`);

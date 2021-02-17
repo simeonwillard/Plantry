@@ -130,8 +130,7 @@ function FavoritesList({ favorite }) {
 
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
-                        <Typography paragraph>Ingredients</Typography>
-                        <FavoriteDetails ingredients={favorite.ingredients} />
+                        <FavoriteDetails favorite={favorite} />
                     </CardContent>
                 </Collapse>
             </Card>

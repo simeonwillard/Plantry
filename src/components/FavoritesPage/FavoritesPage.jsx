@@ -24,7 +24,7 @@ function FavoritesPage() {
         <div>
             <h1 style={{textAlign: 'center', padding: 40}}>Favorites</h1>
             <div>
-                {/* <Grid container spacing={3} style={{ marginLeft: 20, marginRight: 20 }}>
+                <Grid container spacing={3} style={{ marginLeft: 20, marginRight: 20 }}>
 
                     {favorites.map((favorite) => {
                         return (
@@ -33,7 +33,7 @@ function FavoritesPage() {
                             </Grid>
                         )
                     })}
-                </Grid> */}
+                </Grid>
             </div>
         </div>
     )

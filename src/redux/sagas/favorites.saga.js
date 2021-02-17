@@ -15,7 +15,7 @@ function* fetchFavorites() {
 function* addFavorite(action) {
     try {
         const newFavorite = action.payload;
-        console.log('adding recipe to favorites: ', newFavorite);
+        // console.log('adding recipe to favorites: ', newFavorite);
         yield axios.post('/api/favorites', { newFavorite });
         yield put({ type: 'FETCH_FAVORITES' });
     } catch (error) {
