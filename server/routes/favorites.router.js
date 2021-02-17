@@ -15,12 +15,12 @@ router.get('/', rejectUnauthenticated, (req, res) => {
                         GROUP BY "favorite_recipes".id;`;
 
     pool.query(queryText, [req.user.id])
-    .then((result) => {
-        res.send(result.rows);
-    })
-    .catch((error) => {
-        console.log('error getting favorites', error);
-    });
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch((error) => {
+            console.log('error getting favorites', error);
+        });
 });
 
 
@@ -34,21 +34,20 @@ router.post('/', rejectUnauthenticated, (req, res) => {
                                        VALUES ($1, $2, $3, $4, $5, $6)
                                        RETURNING "id";`;
 
-    pool.query(insertIntoFavoriteRecipes, [newFavorite.label, newFavorite.image, newFavorite.url, 
-                                            newFavorite.source, newFavorite.calories, req.user.id])
+    pool.query(insertIntoFavoriteRecipes, [newFavorite.label, newFavorite.image, newFavorite.url,
+    newFavorite.source, newFavorite.calories, req.user.id])
         .then((result) => {
-            console.log('new recipe id: ', result.rows[0].id);
 
             const createdRecipeId = result.rows[0].id;
 
             for (let ingredient of newFavorite.ingredientLines) {
-            
-            const insertIntoIngredientsQuery = `INSERT INTO "ingredients" ("name", "recipe_id")
-                                                VALUES ($1, $2);`;
-            
-            pool.query(insertIntoIngredientsQuery, [ingredient, createdRecipeId])
+
+                const insertIntoIngredientsQuery = `INSERT INTO "ingredients" ("name", "recipe_id")
+                                                    VALUES ($1, $2);`;
+
+                pool.query(insertIntoIngredientsQuery, [ingredient, createdRecipeId])
             }
-            
+
         })
         .catch((error) => {
             console.log(`error in adding favorite ${error}`);
@@ -58,6 +57,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 
 // deleting a favorite recipe
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
+
     const queryText = `DELETE FROM "favorite_recipes" WHERE "id" = $1 AND "user_id" = $2;`;
 
     pool.query(queryText, [req.params.id, req.user.id])

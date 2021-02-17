@@ -28,6 +28,8 @@ function* deleteFavorite(action) {
     try {
         console.log('removing favorite');
         const favoriteID = action.payload.id;
+                console.log(favoriteID);
+
         yield axios.delete(`/api/favorites/${favoriteID}`);
         yield put({type: 'FETCH_FAVORITES'})
     } catch (error) {

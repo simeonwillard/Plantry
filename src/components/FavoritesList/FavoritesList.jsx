@@ -83,13 +83,13 @@ function FavoritesList({ favorite }) {
                             </IconButton>
                         </ToolTip>
                     }
-                    title={favorite.title}
+                    title={favorite.label}
                 // subheader="September 14, 2016"
                 />
                 <CardMedia
                     className={classes.media}
                     image={favorite.image}
-                    title={favorite.title}
+                    title={favorite.label}
                 />
                 <CardContent>
                     <Button
