@@ -5,27 +5,24 @@ const router = express.Router();
 
 // route to get the grocery list from db
 router.get('/', rejectUnauthenticated, (req, res) => {
-    
+
     // SELECT pertinent grocery_list info, the category names for the items, and the username of the
     // current user all WHERE the user_id = the logged in user
     const queryText = `
-                    SELECT  "grocery_list".id, "grocery_list".name,"grocery_list".quantity, "grocery_list".unit, 
-                            "grocery_list".purchased, "user".username, "grocery_category".name as "category" 
-                    FROM "grocery_list" 
+                    SELECT "grocery_list".*, "grocery_category".name AS "category" FROM "grocery_list"
                     JOIN "grocery_category" ON "grocery_category".id = "grocery_list".category_id
-                    JOIN "user" ON "user".id = "grocery_list".user_id
-                    WHERE "grocery_list".user_id = $1
+                    WHERE "user_id" = $1
                     ORDER BY "category";
                     `;
 
     pool.query(queryText, [req.user.id])
-    .then((result) => {
-        res.send(result.rows);
-    })
-    .catch((error) => {
-        console.log('error getting grocery list', error);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch((error) => {
+            console.log('error getting grocery list', error);
+            res.sendStatus(500);
+        })
 });
 
 
@@ -38,15 +35,15 @@ router.post('/', rejectUnauthenticated, (req, res) => {
                         INSERT INTO "grocery_list" ("name", "quantity", "unit", "category_id", "user_id")
                         VALUES ($1, $2, $3, $4, $5);
                         `;
-    
+
     pool.query(queryText, [itemToAdd.name, itemToAdd.quantity, itemToAdd.unit, itemToAdd.category_id, req.user.id])
-    .then((result) => {
-        res.sendStatus(201);
-    })
-    .catch((error) => {
-        console.log('error adding item to grocery list', error);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.sendStatus(201);
+        })
+        .catch((error) => {
+            console.log('error adding item to grocery list', error);
+            res.sendStatus(500);
+        })
 });
 
 
@@ -62,13 +59,13 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
                         `;
 
     pool.query(queryText, [itemToPurchase.id, req.user.id])
-    .then((result) => {
-        res.sendStatus(201);
-    })
-    .catch((error) => {
-        console.log('error purchasing item', error);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.sendStatus(201);
+        })
+        .catch((error) => {
+            console.log('error purchasing item', error);
+            res.sendStatus(500);
+        })
 })
 
 
@@ -80,13 +77,13 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
     const queryText = `DELETE FROM "grocery_list" WHERE "id" = $1 AND "user_id" = $2;`;
 
     pool.query(queryText, [itemToDelete, req.user.id])
-    .then((result) => {
-        res.sendStatus(200);
-    })
-    .catch((error) => {
-        console.log('error deleting a grocery item', error);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.sendStatus(200);
+        })
+        .catch((error) => {
+            console.log('error deleting a grocery item', error);
+            res.sendStatus(500);
+        })
 })
 
 
@@ -103,7 +100,7 @@ router.put('/item/:id', rejectUnauthenticated, (req, res) => {
     `;
 
     pool.query(queryText, [itemToEdit.name, itemToEdit.quantity, itemToEdit.unit,
-                            itemToEdit.category_id, itemToEdit.id, req.user.id])
+    itemToEdit.category_id, itemToEdit.id, req.user.id])
         .then((result) => {
             res.sendStatus(200);
         })
@@ -120,13 +117,13 @@ router.delete('/', rejectUnauthenticated, (req, res) => {
     const queryText = `DELETE FROM "grocery_list" WHERE "user_id" = $1;`;
 
     pool.query(queryText, [req.user.id])
-    .then((result) => {
-        res.sendStatus(200);
-    })
-    .catch((error) => {
-        console.log('error clearing grocery list', error);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.sendStatus(200);
+        })
+        .catch((error) => {
+            console.log('error clearing grocery list', error);
+            res.sendStatus(500);
+        })
 })
 
 module.exports = router;

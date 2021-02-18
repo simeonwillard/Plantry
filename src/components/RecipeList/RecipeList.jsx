@@ -50,12 +50,12 @@ const useStyles = makeStyles((theme) => ({
         color: 'red'
     },
     notFav: {
-        color: 'purple'
+        color: 'gray'
     }
 }));
 
 
-function Recipes({ recipe }) {
+function RecipeList({ recipe }) {
 
 
     const classes = useStyles();
@@ -111,6 +111,7 @@ function Recipes({ recipe }) {
                         </Button>
                         <h5 style={{fontWeight: "normal"}}><b>Source:</b> <em>{recipe.recipe.source}</em></h5>
                         <h5 style={{fontWeight: "normal"}}><b>Calories:</b> {(recipe.recipe.calories).toFixed(2)}</h5>
+                        <h5 style={{fontWeight: "normal"}}><b>Yield:</b> {recipe.recipe.yield} servings</h5>
                     </CardContent>
                     <CardActions disableSpacing>
                         <IconButton
@@ -141,8 +142,6 @@ function Recipes({ recipe }) {
                     </Collapse>
                 </Card>
             </div>
-
-
         </div>
 
 
@@ -152,4 +151,4 @@ function Recipes({ recipe }) {
 
 
 
-export default Recipes;
+export default RecipeList;

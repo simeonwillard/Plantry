@@ -9,7 +9,7 @@ require('dotenv').config();
 router.get('/', rejectUnauthenticated, (req, res) => {
     // selecting favorite_recipes of the specific user
     const queryText = `
-                        SELECT "favorite_recipes".*, array_agg("ingredients".name) ingredients FROM "favorite_recipes"
+                        SELECT "favorite_recipes".*, json_agg("ingredients".*) ingredients FROM "favorite_recipes"
                         JOIN "ingredients" ON "ingredients".recipe_id = "favorite_recipes".id
                         WHERE "favorite_recipes".user_id = $1
                         GROUP BY "favorite_recipes".id;`;
@@ -30,12 +30,12 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const newFavorite = req.body.newFavorite;
 
     // inserting into favorite_recipes table in db
-    const insertIntoFavoriteRecipes = `INSERT INTO "favorite_recipes" ("label", "image", "url", "source", "calories", "user_id")
-                                       VALUES ($1, $2, $3, $4, $5, $6)
+    const insertIntoFavoriteRecipes = `INSERT INTO "favorite_recipes" ("label", "image", "url", "source", "calories", "yield", "user_id")
+                                       VALUES ($1, $2, $3, $4, $5, $6, $7)
                                        RETURNING "id";`;
 
     pool.query(insertIntoFavoriteRecipes, [newFavorite.label, newFavorite.image, newFavorite.url,
-    newFavorite.source, newFavorite.calories, req.user.id])
+    newFavorite.source, newFavorite.calories, newFavorite.yield, req.user.id])
         .then((result) => {
 
             const createdRecipeId = result.rows[0].id;
@@ -68,6 +68,20 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
             console.log(`error in deleting favorite ${error}`);
             res.sendStatus(500);
         })
+})
+
+router.put('/:id', rejectUnauthenticated, (req, res) => {
+
+    const queryText = `UPDATE "ingredients" SET "in_pantry" = $1 WHERE "id" = $2;`;
+
+    pool.query(queryText, [req.body.in_pantry, req.params.id])
+    .then((result) => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log('error updating ingredients', error);
+        res.sendStatus(500);
+    })
 })
 
 module.exports = router;

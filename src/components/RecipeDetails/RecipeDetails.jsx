@@ -1,3 +1,4 @@
+import RecipeCompare from "../RecipeCompare/RecipeCompare"
 
 function RecipeDetails({ ingredients }) {
 
@@ -7,7 +8,7 @@ function RecipeDetails({ ingredients }) {
                 <h5>Ingredients</h5>{ingredients.map((ingredient, i) => {
                     return (
                         <ul key={i}>
-                            <li>{ingredient.text}</li>
+                            <RecipeCompare ingredient={ingredient}/>
                         </ul>
                     )
                 })}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
-import Recipes from "../Recipes/Recipes";
+import RecipeList from "../RecipeList/RecipeList";
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
@@ -31,6 +31,9 @@ function SearchRecipes() {
     const [userQuery, setUserQuery] = useState('');
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch({ type: 'FETCH_PANTRY' });
+    }, [])
     // results from edamam API
     const searchResults = useSelector((state) => state?.getSearchResults);
 
@@ -57,11 +60,11 @@ function SearchRecipes() {
                 </form>
                 <div>
                     {/* <Grid container spacing={2} className={classes.grid}> */}
-                    <Grid  container spacing={3} style={{ marginLeft: 20, marginRight: 20 }}>
+                    <Grid container spacing={3} style={{ marginLeft: 20, marginRight: 20 }}>
                         {searchResults && searchResults.map((recipe, i) => {
                             return (
                                 <Grid key={i} item xs={3}>
-                                    <Recipes key={i} recipe={recipe} />
+                                    <RecipeList key={i} recipe={recipe} />
                                 </Grid>
                             )
                         })}

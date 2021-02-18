@@ -5,7 +5,10 @@ const router = express.Router();
 
 // get the user's pantry
 router.get('/', rejectUnauthenticated, (req, res) => {
-    const queryText = `SELECT * FROM "pantry" WHERE "user_id" = $1 ORDER BY "id";`;
+    const queryText = `SELECT "pantry".*, "grocery_category".name AS "category" FROM "pantry"
+    JOIN "grocery_category" ON "grocery_category".id = "pantry".category_id
+    WHERE "pantry".user_id = $1
+    ORDER BY "category";`;
 
     pool.query(queryText, [req.user.id])
         .then((result) => {
@@ -23,11 +26,12 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const itemToAdd = req.body.newItem;
 
     const queryText = `
-    INSERT INTO "pantry" ("item", "cabinet", "staple", "refrigerated", "date_purchased", "user_id")
-    VALUES ($1, $2, $3, $4, $5, $6);
+    INSERT INTO "pantry" ("item", "quantity", "unit", "category_id", "staple", "date_purchased", "user_id")
+    VALUES ($1, $2, $3, $4, $5, $6, $7);
     `;
 
-    pool.query(queryText, [itemToAdd.item, itemToAdd.cabinet, itemToAdd.staple, itemToAdd.refrigerated, itemToAdd.date_purchased, req.user.id])
+    pool.query(queryText, [itemToAdd.item, itemToAdd.quantity, itemToAdd.unit, itemToAdd.category_id,
+    itemToAdd.staple, itemToAdd.date_purchased, req.user.id])
         .then((result) => {
             res.sendStatus(201)
         })
@@ -44,10 +48,10 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     console.log(itemToEdit);
 
     const queryText = `
-    UPDATE "pantry" SET "item" = $1, "cabinet" = $2, "staple" = $3, "refrigerated" = $4, "date_purchased" = $5
-    WHERE "id" = $6 AND "user_id" = $7;`;
+    UPDATE "pantry" SET "item" = $1, "quantity" = $2, "unit" = $3, "category_id" = $4, "staple" = $5, "date_purchased" = $6
+    WHERE "id" = $7 AND "user_id" = $8;`;
 
-    pool.query(queryText, [itemToEdit.item, itemToEdit.cabinet, itemToEdit.staple, itemToEdit.refrigerated,
+    pool.query(queryText, [itemToEdit.item, itemToEdit.quantity, itemToEdit.unit, itemToEdit.category_id, itemToEdit.staple,
     itemToEdit.date_purchased, itemToEdit.id, req.user.id])
         .then((result) => {
             res.sendStatus(200);

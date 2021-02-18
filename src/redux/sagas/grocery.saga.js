@@ -30,6 +30,7 @@ function* addItemToPantry(action) {
     try {
         const itemToAdd = action.payload;
         yield axios.post('/api/grocery-to-pantry', { itemToAdd });
+        yield put({type: 'FETCH_PANTRY'});
     } catch (error) {
         console.log('error adding grocery item to the pantry', error);
     }

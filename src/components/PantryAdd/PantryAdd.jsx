@@ -29,9 +29,11 @@ const useStyles = makeStyles((theme) => ({
     clearBtn: {
         backgroundColor: 'black',
         color: 'white',
+        boxShadow: '4px 5px gray'
     },
     addBtn: {
         color: 'blue',
+
     },
     topBtns: {
         marginLeft: '85%',
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // component to handle add button on pantry table
-function PantryAdd() {
+function PantryAdd({ categories }) {
 
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -53,9 +55,10 @@ function PantryAdd() {
     // variable to add to the table
     const [addItem, setAddItem] = useState({
         item: '',
-        cabinet: '',
+        quantity: '',
+        unit: '',
+        category_id: '',
         staple: '',
-        refrigerated: '',
         date_purchased: ''
     });
 
@@ -78,9 +81,10 @@ function PantryAdd() {
         // resets addItem variable for next add
         setAddItem({
             item: '',
-            cabinet: '',
+            quantity: '',
+            unit: '',
+            category_id: '',
             staple: '',
-            refrigerated: '',
             date_purchased: ''
         });
     }
@@ -91,9 +95,10 @@ function PantryAdd() {
         // resets addItem variable for next add
         setAddItem({
             item: '',
-            cabinet: '',
+            quantity: '',
+            unit: '',
+            category_id: '',
             staple: '',
-            refrigerated: '',
             date_purchased: ''
         });
     }
@@ -133,37 +138,52 @@ function PantryAdd() {
                             value={addItem.item}
                             name="item"
                             onChange={handleChange}
-                            style={{padding: 3}}
+                            style={{ padding: 3 }}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Cabinet</InputLabel>
+                        <InputLabel>Quantity</InputLabel>
                         <Input
                             type="text"
-                            value={addItem.cabinet}
-                            name="cabinet"
+                            value={addItem.quantity}
+                            name="quantity"
                             onChange={handleChange}
-                            style={{padding: 3}}
+                            style={{ padding: 3 }}
                         />
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel>Unit</InputLabel>
+                        <Input
+                            type="text"
+                            value={addItem.unit}
+                            name="unit"
+                            onChange={handleChange}
+                            style={{ padding: 3 }}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel>Category</InputLabel>
+                        <Select
+                            value={addItem.category_id}
+                            name="category_id"
+                            onChange={handleChange}
+                        >
+                            <MenuItem value={categories[0].id}>baking</MenuItem>
+                            <MenuItem value={categories[1].id}>canned</MenuItem>
+                            <MenuItem value={categories[2].id}>dairy</MenuItem>
+                            <MenuItem value={categories[3].id}>produce</MenuItem>
+                            <MenuItem value={categories[4].id}>meat</MenuItem>
+                            <MenuItem value={categories[5].id}>beverages</MenuItem>
+                            <MenuItem value={categories[6].id}>frozen</MenuItem>
+                            <MenuItem value={categories[7].id}>misc.</MenuItem>
+                        </Select>
                     </FormControl>
                     <FormControl className={classes.formControl}>
                         <InputLabel>Staple</InputLabel>
                         <Select
                             value={addItem.staple}
                             name="staple"
-                            style={{padding: 3}}
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={true}>Yes</MenuItem>
-                            <MenuItem value={false}>No</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel>Refrigerated</InputLabel>
-                        <Select
-                            value={addItem.refrigerated}
-                            name="refrigerated"
-                            style={{padding: 3}}
+                            style={{ padding: 3 }}
                             onChange={handleChange}
                         >
                             <MenuItem value={true}>Yes</MenuItem>
@@ -180,23 +200,23 @@ function PantryAdd() {
                         />
                     </FormControl>
                     <ToolTip title="Add the Item">
-                        <Button 
-                        variant="contained" 
-                        onClick={handleAddItem}
-                        color="primary"
-                        style={{marginLeft: 10}}
-                        size="small"
+                        <Button
+                            variant="contained"
+                            onClick={handleAddItem}
+                            color="primary"
+                            style={{ marginLeft: 10 }}
+                            size="small"
                         >
                             Add Item
                         </Button>
                     </ToolTip>
                     <ToolTip title="Cancel Add">
-                        <Button 
-                        variant="contained" 
-                        onClick={handleCancelAdd} 
-                        style={{marginLeft: 10,}}
-                        color="secondary"
-                        size="small"
+                        <Button
+                            variant="contained"
+                            onClick={handleCancelAdd}
+                            style={{ marginLeft: 10, }}
+                            color="secondary"
+                            size="small"
                         >
                             Cancel
                         </Button>

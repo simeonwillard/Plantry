@@ -13,9 +13,10 @@ function PantryEdit({ cupboard, edit, setEdit, editItem, setEditItem }) {
         setEditItem({
             id: cupboard.id,
             item: cupboard.item,
-            cabinet: cupboard.cabinet,
+            quantity: cupboard.quantity,
+            unit: cupboard.unit,
+            category_id: cupboard.category_id,
             staple: cupboard.staple,
-            refrigerated: cupboard.refrigerated,
             date_purchased: cupboard.date_purchased
         });
     }

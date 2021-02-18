@@ -103,6 +103,7 @@ function FavoritesList({ favorite }) {
                     </Button>
                     <h5 style={{ fontWeight: 'normal' }}><b>Source:</b> {favorite.source}</h5>
                     <h5 style={{ fontWeight: 'normal' }}><b>Calories:</b> {favorite.calories}</h5>
+                    <h5 style={{ fontWeight: 'normal' }}><b>Yield:</b> {favorite.yield} servings</h5>
                 </CardContent>
                 <CardActions disableSpacing>
                     <ToolTip title="Delete Favorite">

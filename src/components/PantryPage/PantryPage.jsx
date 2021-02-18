@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PantryDelete from "../PantryDelete/PantryDelete";
 import PantryEdit from "../PantryEdit/PantryEdit";
 import PantryAdd from '../PantryAdd/PantryAdd';
+import './PantryPage.css';
 // import material ui
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -22,18 +23,25 @@ import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 import ToolTip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import ClearIcon from '@material-ui/icons/Clear';
-import Typography from '@material-ui/core/Typography';
 
 
 
 // styles
 const useStyles = makeStyles((theme) => ({
     table: {
-        minWidth: 500,
-        marginLeft: 50,
-        marginRight: 50
+        minWidth: '400px',
+        width: '1200px',
+        margin: 'auto',
+        textAlign: 'center',
+        borderCollapse: 'collapse',
+    },
+    body: {
+        '&:nth-of-type(even)': {
+            backgroundColor: 'aliceblue',
+        }
+    },
+    tHead: {
+        backgroundColor: 'lightblue',
     },
     formControl: {
         margin: theme.spacing(1),
@@ -42,9 +50,7 @@ const useStyles = makeStyles((theme) => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
-    tHead: {
-        backgroundColor: 'lightblue',
-    },
+
     title: {
         textAlign: 'center',
     },
@@ -67,9 +73,10 @@ function PantryPage() {
     const [editItem, setEditItem] = useState({
         id: '',
         item: '',
-        cabinet: '',
+        quantity: '',
+        unit: '',
+        category_id: '',
         staple: '',
-        refrigerated: '',
         date_purchased: ''
     });
 
@@ -77,11 +84,13 @@ function PantryPage() {
     const [edit, setEdit] = useState(false);
     // getting the data stored in redux
     const pantry = useSelector(state => state.pantryReducer);
+    const categories = useSelector(state => state.categoryReducer);
     const dispatch = useDispatch();
 
     // displaying the data on page load
     useEffect(() => {
         dispatch({ type: 'FETCH_PANTRY' });
+        dispatch({ type: 'FETCH_GROCERY_CATEGORIES' })
     }, [])
 
     // putting user's inputs into editItem
@@ -91,16 +100,17 @@ function PantryPage() {
 
     const handleSubmitEdit = () => {
         // conditional render
-        setEdit(true);
+        setEdit(false);
         // updating the pantry with the edited item
         dispatch({ type: 'EDIT_PANTRY', payload: editItem });
         // resetting the editItem variable for next edit
         setEditItem({
             id: '',
             item: '',
-            cabinet: '',
+            quantity: '',
+            unit: '',
+            category_id: '',
             staple: '',
-            refrigerated: '',
             date_purchased: ''
         });
     }
@@ -112,21 +122,22 @@ function PantryPage() {
         setEditItem({
             id: '',
             item: '',
-            cabinet: '',
+            quantity: '',
+            unit: '',
+            category_id: '',
             staple: '',
-            refrigerated: '',
             date_purchased: ''
         });
     }
 
     return (
-        <div>
+        <div className={classes.root}>
             <div className={classes.title}>
                 <h1>Pantry</h1>
             </div>
             <div>
                 <div>
-                    {!edit && <PantryAdd />}
+                    {!edit && <PantryAdd categories={categories} />}
                 </div>
                 {edit &&
                     <div className={classes.editForm}>
@@ -141,32 +152,47 @@ function PantryPage() {
                             />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel>Cabinet</InputLabel>
+                            <InputLabel>Quantity</InputLabel>
                             <Input
                                 type="text"
-                                value={editItem.cabinet}
-                                name="cabinet"
+                                value={editItem.quantity}
+                                name="quantity"
                                 onChange={handleChange}
                                 style={{ padding: 3 }}
                             />
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>Unit</InputLabel>
+                            <Input
+                                type="text"
+                                value={editItem.unit}
+                                name="unit"
+                                onChange={handleChange}
+                                style={{ padding: 3 }}
+                            />
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>Category</InputLabel>
+                            <Select
+                                value={editItem.category_id}
+                                name="category_id"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={categories[0].id}>baking</MenuItem>
+                                <MenuItem value={categories[1].id}>canned</MenuItem>
+                                <MenuItem value={categories[2].id}>dairy</MenuItem>
+                                <MenuItem value={categories[3].id}>produce</MenuItem>
+                                <MenuItem value={categories[4].id}>meat</MenuItem>
+                                <MenuItem value={categories[5].id}>beverages</MenuItem>
+                                <MenuItem value={categories[6].id}>frozen</MenuItem>
+                                <MenuItem value={categories[7].id}>misc.</MenuItem>
+                            </Select>
                         </FormControl>
                         <FormControl className={classes.formControl}>
                             <InputLabel>Staple</InputLabel>
                             <Select
                                 value={editItem.staple}
                                 name="staple"
-                                onChange={handleChange}
-                                style={{ padding: 3 }}
-                            >
-                                <MenuItem value={true}>Yes</MenuItem>
-                                <MenuItem value={false}>No</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel>Refrigerated</InputLabel>
-                            <Select
-                                value={editItem.refrigerated}
-                                name="refrigerated"
                                 onChange={handleChange}
                                 style={{ padding: 3 }}
                             >
@@ -209,26 +235,28 @@ function PantryPage() {
                 }
             </div>
             <div>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table}>
+                <TableContainer component={Paper} className={classes.table}>
+                    <Table >
                         <TableHead className={classes.tHead}>
                             <TableRow >
                                 <TableCell style={{ fontSize: 20 }}><b>Item</b></TableCell>
-                                <TableCell style={{ fontSize: 20 }}><b>Cabinet</b></TableCell>
+                                <TableCell style={{ fontSize: 20 }}><b>Quantity</b></TableCell>
+                                <TableCell style={{ fontSize: 20 }}><b>Unit</b></TableCell>
+                                <TableCell style={{ fontSize: 20 }}><b>Category</b></TableCell>
                                 <TableCell style={{ fontSize: 20 }}><b>Staple</b></TableCell>
-                                <TableCell style={{ fontSize: 20 }}><b>Refrigerated</b></TableCell>
                                 <TableCell style={{ fontSize: 20 }}><b>Date Purchased</b></TableCell>
                                 <TableCell style={{ fontSize: 20 }}><b>Edit</b></TableCell>
                                 <TableCell style={{ fontSize: 20 }}><b>Delete</b></TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody >
                             {pantry.map((cupboard) => (
-                                <TableRow key={cupboard.id}>
+                                <TableRow className={classes.body} key={cupboard.id}>
                                     <TableCell>{cupboard.item}</TableCell>
-                                    <TableCell>{cupboard.cabinet}</TableCell>
+                                    <TableCell>{cupboard.quantity}</TableCell>
+                                    <TableCell>{cupboard.unit}</TableCell>
+                                    <TableCell>{cupboard.category}</TableCell>
                                     {cupboard.staple ? <TableCell>Yes</TableCell> : <TableCell>No</TableCell>}
-                                    {cupboard.refrigerated ? <TableCell>Yes</TableCell> : <TableCell>No</TableCell>}
                                     <TableCell>{new Date(cupboard.date_purchased).toLocaleDateString("en-us")}</TableCell>
                                     <TableCell>
                                         <PantryEdit
