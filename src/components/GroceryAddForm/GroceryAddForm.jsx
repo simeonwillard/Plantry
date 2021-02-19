@@ -21,19 +21,35 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 120,
         textAlign: "center"
     },
-    addBtn: {
-        margin: 10
+    addFormBtn: {
+        margin: 10,
+        backgroundColor: '#3f51b5',
+        color: 'white',
+        webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
+        mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
+        boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
+        border: '1px solid gray'
+
     },
     clearBtn: {
         color: "white",
         backgroundColor: "black",
+        webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
+        mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
+        boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
+        border: '1px solid gray'
     },
     topBtns: {
-        textAlign: "right",
-        marginRight: 140,
+        marginLeft: '70%'
     },
     addForm: {
         textAlign: "center"
+    },
+    cancelBtn: {
+        webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
+        mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
+        boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
+        border: '1px solid gray'
     }
 
 }));
@@ -86,7 +102,6 @@ function GroceryAddForm({ categories }) {
             confirmButtonText: 'Yes, delete list!'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire('deleted!');
                 dispatch({ type: 'CLEAR_GROCERY_LIST' });
             }
         })
@@ -106,8 +121,11 @@ function GroceryAddForm({ categories }) {
         <div>
             {!readyToAddItem &&
                 <div className={classes.topBtns}>
+                    <div>
+                        <h5 style={{color: 'gray'}}>Add and clear from list</h5>
+                    </div>
                     <Tooltip title="Add an Item">
-                        <IconButton onClick={handleReadyToAddItem} color="primary">
+                        <IconButton onClick={handleReadyToAddItem} style={{ color: 'lightblue' }}>
                             <AddBoxIcon fontSize="large" />
                         </IconButton>
                     </Tooltip>
@@ -121,36 +139,40 @@ function GroceryAddForm({ categories }) {
             {readyToAddItem &&
                 <div className={classes.addForm}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Name</InputLabel>
+                        <InputLabel style={{color: 'aliceblue'}}>Name</InputLabel>
                         <Input
                             type="text"
                             value={addItem.name}
                             name="name"
                             onChange={handleChange}
+                            style={{color: 'aliceblue'}}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>quantity</InputLabel>
+                        <InputLabel style={{color: 'aliceblue'}}>quantity</InputLabel>
                         <Input
                             value={addItem.quantity}
                             name="quantity"
                             onChange={handleChange}
+                            style={{color: 'aliceblue'}}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Unit</InputLabel>
+                        <InputLabel style={{color: 'aliceblue'}}>Unit</InputLabel>
                         <Input
                             value={addItem.unit}
                             name="unit"
                             onChange={handleChange}
+                            style={{color: 'aliceblue'}}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Category</InputLabel>
+                        <InputLabel style={{color: 'aliceblue'}}>Category</InputLabel>
                         <Select
                             value={addItem.category_id}
                             name="category_id"
                             onChange={handleChange}
+                            style={{color: 'aliceblue'}}
                         >
                             <MenuItem value={categories[0].id}>baking</MenuItem>
                             <MenuItem value={categories[1].id}>canned</MenuItem>
@@ -162,21 +184,21 @@ function GroceryAddForm({ categories }) {
                             <MenuItem value={categories[7].id}>misc.</MenuItem>
                         </Select>
                     </FormControl>
-                    <Button 
-                    variant="contained" 
-                    size="small" 
-                    color="primary" 
-                    className={classes.addBtn}
-                    onClick={handleSubmitItem}
+                    <Button
+                        variant="contained"
+                        size="small"
+                        className={classes.addFormBtn}
+                        onClick={handleSubmitItem}
                     >
                         Add Item
                     </Button>
                     <Tooltip title="Cancel Item">
-                        <Button 
-                        variant="contained" 
-                        size="small" 
-                        color="secondary" 
-                        onClick={handleCancelAdd}
+                        <Button
+                            variant="contained"
+                            size="small"
+                            color="secondary"
+                            className={classes.cancelBtn}
+                            onClick={handleCancelAdd}
                         >
                             cancel
                         </Button>

@@ -32,7 +32,7 @@ Button
   border-color: #014041;
   border-width: 1px 1px 3px;
   border-radius: 4px;
-  background-color: #00acb0;
+  background-color: black;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
@@ -110,3 +110,27 @@ input {
   margin: 5px;
   margin-bottom: 10px;
 }
+
+.background::before {
+  content: "";
+  background-image: url("./dark-walnut-trafficmaster-vinyl-plank-flooring-60915-64_1000.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  z-index: -10;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+/* .background {
+  background-image: url("./images.jpg");
+  height: 500px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+} */

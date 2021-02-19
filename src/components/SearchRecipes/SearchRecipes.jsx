@@ -19,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
     },
     grid: {
         flexBox: 'wrap'
+    },
+    search: {
+        color: 'aliceblue',
+        fontSize: 30,
+        // backgroundColor: 'aliceblue'
     }
 }))
 
@@ -46,15 +51,16 @@ function SearchRecipes() {
     return (
         <div>
             <div>
-                <h1 style={{ textAlign: 'center' }}>Search Recipes</h1>
+                <h1 style={{ textAlign: 'center', color: 'lightblue', fontSize: 50 }}><b>Find Recipes</b></h1>
                 <form onSubmit={handleSubmit} className={classes.form}>
                     <Input
                         type="text"
-                        placeholder="Search Recipes"
+                        placeholder="Search"
                         onChange={(event) => setUserQuery(event.target.value)}
                         value={userQuery}
+                        className={classes.search}
                     />
-                    <IconButton>
+                    <IconButton style={{color: 'aliceblue'}}>
                         <SearchIcon />
                     </IconButton>
                 </form>

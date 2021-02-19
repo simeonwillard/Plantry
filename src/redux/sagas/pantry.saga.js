@@ -44,12 +44,21 @@ function* addPantryItem(action) {
     }
 }
 
-function* deletePantry() {
+function* deleteNonStaples() {
     try {
-        yield axios.delete('/api/pantry');
+        yield axios.delete('/api/pantry', {deleteAll: false});
         yield put({ type: 'FETCH_PANTRY' });
     } catch (error) {
-        console.log('error deleting entire pantry', error);
+        console.log('error deleting non staples', error);
+    }
+}
+
+function* deletePantry() {
+    try {
+        yield axios.delete('/api/pantry', {deleteAll: true});
+        yield put({type: 'FETCH_PANTRY'});
+    } catch (error) {
+        console.log('error deleting entire pantry', error)
     }
 }
 
@@ -58,6 +67,7 @@ function* pantrySaga() {
     yield takeEvery('EDIT_PANTRY', editPantry);
     yield takeEvery('ADD_PANTRY_ITEM', addPantryItem)
     yield takeEvery('DELETE_PANTRY_ITEM', deletePantryItem);
+    yield takeEvery('DELETE_NON_STAPLES', deleteNonStaples);
     yield takeEvery('DELETE_PANTRY', deletePantry);
 }
 

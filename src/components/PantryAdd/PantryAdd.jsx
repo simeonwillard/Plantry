@@ -1,6 +1,7 @@
 // import dependencies 
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { shallowEqual, useDispatch } from "react-redux";
+import Swal from 'sweetalert2';
 // import material ui
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -14,29 +15,33 @@ import IconButton from '@material-ui/core/IconButton';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import ToolTip from '@material-ui/core/Tooltip';
 
+
 // styles
 const useStyles = makeStyles((theme) => ({
-    table: {
-        minWidth: 650,
-    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
+        marginBottom: 40
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
+
     },
     clearBtn: {
         backgroundColor: 'black',
         color: 'white',
-        boxShadow: '4px 5px gray'
+        // boxShadow: '3px 13px black',
+        webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
+        mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
+        boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
+        border: '1px solid gray'
     },
     addBtn: {
-        color: 'blue',
+        color: 'lightblue',
 
     },
     topBtns: {
-        marginLeft: '85%',
+        marginLeft: '73%',
         marginBottom: 20
     },
     addForm: {
@@ -105,13 +110,33 @@ function PantryAdd({ categories }) {
 
     // function to clear entire pantry except the staple items
     const handleClear = () => {
-        dispatch({ type: 'DELETE_PANTRY' });
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'which items would you like to delete?',
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonColor: 'black',
+            confirmButtonText: 'delete non-staples',
+            showDenyButton: true,
+            denyButtonText: 'delete all items'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch({ type: 'DELETE_NON_STAPLES' })
+            } else if (result.isDenied) {
+                dispatch({ type: 'DELETE_PANTRY' });
+
+            }
+        })
+
     }
 
     return (
         <div>
             {!readyToAdd &&
                 <div className={classes.topBtns}>
+                    <div>
+                        <h5 style={{ color: 'gray' }}>add and clear from pantry</h5>
+                    </div>
                     <ToolTip title="Add Item">
                         <IconButton className={classes.addBtn} onClick={handelAddDisplay}>
                             <AddBoxIcon fontSize="large" />
@@ -132,41 +157,42 @@ function PantryAdd({ categories }) {
             {readyToAdd &&
                 <div className={classes.addForm}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Item</InputLabel>
+                        <InputLabel style={{ color: 'aliceblue' }}>Item</InputLabel>
                         <Input
                             type="text"
                             value={addItem.item}
                             name="item"
                             onChange={handleChange}
-                            style={{ padding: 3 }}
+                            style={{ padding: 3, color: 'aliceblue' }}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Quantity</InputLabel>
+                        <InputLabel style={{ color: 'aliceblue' }}>Quantity</InputLabel>
                         <Input
                             type="text"
                             value={addItem.quantity}
                             name="quantity"
                             onChange={handleChange}
-                            style={{ padding: 3 }}
+                            style={{ padding: 3, color: 'aliceblue' }}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Unit</InputLabel>
+                        <InputLabel style={{ color: 'aliceblue' }}>Unit</InputLabel>
                         <Input
                             type="text"
                             value={addItem.unit}
                             name="unit"
                             onChange={handleChange}
-                            style={{ padding: 3 }}
+                            style={{ padding: 3, color: 'aliceblue' }}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Category</InputLabel>
+                        <InputLabel style={{ color: 'aliceblue' }}>Category</InputLabel>
                         <Select
                             value={addItem.category_id}
                             name="category_id"
                             onChange={handleChange}
+                            style={{ padding: 3, color: 'aliceblue' }}
                         >
                             <MenuItem value={categories[0].id}>baking</MenuItem>
                             <MenuItem value={categories[1].id}>canned</MenuItem>
@@ -179,24 +205,26 @@ function PantryAdd({ categories }) {
                         </Select>
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Staple</InputLabel>
+                        <InputLabel style={{ color: 'aliceblue' }}>Staple</InputLabel>
                         <Select
                             value={addItem.staple}
                             name="staple"
                             style={{ padding: 3 }}
                             onChange={handleChange}
+                            style={{ padding: 3, color: 'aliceblue' }}
                         >
                             <MenuItem value={true}>Yes</MenuItem>
                             <MenuItem value={false}>No</MenuItem>
                         </Select>
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <FormHelperText>Date Purchased</FormHelperText>
+                        <FormHelperText style={{ color: 'aliceblue' }}>Date Purchased</FormHelperText>
                         <Input
                             value={addItem.date_purchased}
                             type="date"
                             name="date_purchased"
                             onChange={handleChange}
+                            style={{ color: 'aliceblue' }}
                         />
                     </FormControl>
                     <ToolTip title="Add the Item">
@@ -204,7 +232,7 @@ function PantryAdd({ categories }) {
                             variant="contained"
                             onClick={handleAddItem}
                             color="primary"
-                            style={{ marginLeft: 10 }}
+                            style={{ marginLeft: 10, backgroundColor: '#3f51b5' }}
                             size="small"
                         >
                             Add Item

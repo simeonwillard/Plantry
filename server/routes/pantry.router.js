@@ -81,8 +81,17 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
 })
 
 router.delete('/', rejectUnauthenticated, (req, res) => {
+    
+    const deleteAll = req.params;
+    console.log(deleteAll)
 
-    const queryText = `DELETE FROM "pantry" WHERE "staple" = false AND "user_id" = $1;`;
+    let queryText = ``;
+
+    if (deleteAll) {
+         queryText = `DELETE FROM "pantry" WHERE "user_id" = $1;`;
+    } else {
+         queryText = `DELETE FROM "pantry" WHERE "staple" = false AND "user_id" = $1;`;
+    }
 
     pool.query(queryText, [req.user.id])
         .then((result) => {

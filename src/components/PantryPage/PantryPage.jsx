@@ -57,6 +57,22 @@ const useStyles = makeStyles((theme) => ({
     editForm: {
         textAlign: 'center',
         padding: 40
+    },
+    cancelBtn: {
+        marginLeft: 10,
+        webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
+        mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
+        boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
+        border: '1px solid gray'
+    },
+    updateBtn: {
+        webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
+        mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
+        boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
+        border: '1px solid gray',
+        marginLeft: 10, 
+        backgroundColor: '#3f51b5', 
+        color: 'white' 
     }
 
 }));
@@ -133,7 +149,7 @@ function PantryPage() {
     return (
         <div className={classes.root}>
             <div className={classes.title}>
-                <h1>Pantry</h1>
+                <h1 style={{color: 'lightblue'}}>Pantry</h1>
             </div>
             <div>
                 <div>
@@ -142,41 +158,42 @@ function PantryPage() {
                 {edit &&
                     <div className={classes.editForm}>
                         <FormControl className={classes.formControl}>
-                            <InputLabel>Item</InputLabel>
+                            <InputLabel style={{color: 'aliceblue'}}>Item</InputLabel>
                             <Input
                                 type="text"
                                 value={editItem.item}
                                 name="item"
                                 onChange={handleChange}
-                                style={{ padding: 3 }}
+                                style={{ padding: 3, color: 'aliceblue' }}
                             />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel>Quantity</InputLabel>
+                            <InputLabel style={{color: 'aliceblue'}}>Quantity</InputLabel>
                             <Input
                                 type="text"
                                 value={editItem.quantity}
                                 name="quantity"
                                 onChange={handleChange}
-                                style={{ padding: 3 }}
+                                style={{ padding: 3, color: 'aliceblue' }}
                             />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel>Unit</InputLabel>
+                            <InputLabel style={{color: 'aliceblue'}}>Unit</InputLabel>
                             <Input
                                 type="text"
                                 value={editItem.unit}
                                 name="unit"
                                 onChange={handleChange}
-                                style={{ padding: 3 }}
+                                style={{ padding: 3, color: 'aliceblue' }}
                             />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel>Category</InputLabel>
+                            <InputLabel style={{color: 'aliceblue'}}>Category</InputLabel>
                             <Select
                                 value={editItem.category_id}
                                 name="category_id"
                                 onChange={handleChange}
+                                style={{color: 'aliceblue', padding: 3}}
                             >
                                 <MenuItem value={categories[0].id}>baking</MenuItem>
                                 <MenuItem value={categories[1].id}>canned</MenuItem>
@@ -189,24 +206,25 @@ function PantryPage() {
                             </Select>
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel>Staple</InputLabel>
+                            <InputLabel style={{color: 'aliceblue'}}>Staple</InputLabel>
                             <Select
                                 value={editItem.staple}
                                 name="staple"
                                 onChange={handleChange}
-                                style={{ padding: 3 }}
+                                style={{ padding: 3, color: 'aliceblue' }}
                             >
                                 <MenuItem value={true}>Yes</MenuItem>
                                 <MenuItem value={false}>No</MenuItem>
                             </Select>
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <FormHelperText>Date Purchased</FormHelperText>
+                            <FormHelperText style={{color: 'aliceblue'}}>Date Purchased</FormHelperText>
                             <Input
                                 value={editItem.date_purchased}
                                 type="date"
                                 name="date_purchased"
                                 onChange={handleChange}
+                                style={{color: 'aliceblue'}}
                             />
                         </FormControl>
                         <ToolTip title="update pantry">
@@ -214,8 +232,7 @@ function PantryPage() {
                                 variant="contained"
                                 size="small"
                                 onClick={handleSubmitEdit}
-                                color="primary"
-                                style={{ marginLeft: 10 }}
+                                className={classes.updateBtn}
                             >
                                 Update
                             </Button>
@@ -226,7 +243,7 @@ function PantryPage() {
                                 size="small"
                                 onClick={handleCancelEdit}
                                 color="secondary"
-                                style={{ marginLeft: 10 }}
+                                className={classes.cancelBtn}
                             >
                                 cancel
                             </Button>

@@ -23,7 +23,7 @@ function FavoritesPage() {
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center', padding: 40 }}>Favorites</h1>
+            <h1 style={{ textAlign: 'center', padding: 40, color: 'lightblue' }}>Favorites</h1>
             <div>
                 <Grid container spacing={3} style={{ marginLeft: 20, marginRight: 20 }}>
 

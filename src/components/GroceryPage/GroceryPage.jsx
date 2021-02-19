@@ -18,7 +18,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
-import { red } from '@material-ui/core/colors/'
+import image from './unnamed.png';
 
 const useStyles = makeStyles((theme) => ({
     baking: {
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 210,
         textAlign: "center",
         margin: 20,
+        // backgroundImage: `url(${image})`,
     },
     canned: {
         minWidth: 210,
@@ -83,12 +84,25 @@ const useStyles = makeStyles((theme) => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
-    button: {
-        margin: theme.spacing(1)
+    updateBtn: {
+        margin: theme.spacing(1),
+        backgroundColor: '#3f51b5',
+        color: 'white',
+        webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
+        mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
+        boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
+        border: '1px solid gray'
     },
     grid: {
         padding: 40
+    },
+    cancelBtn: {
+        webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
+        mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
+        boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
+        border: '1px solid gray'
     }
+    
 }));
 
 
@@ -191,7 +205,7 @@ function GroceryPage() {
     return (
         <div>
             <div>
-                <h1 id="pageHeader">Grocery List</h1>
+                <h1 style={{textAlign: 'center', color: 'lightblue'}}>Grocery List</h1>
             </div>
             <br />
             <br />
@@ -204,36 +218,40 @@ function GroceryPage() {
                 {readyToEdit &&
                     <div id="editForm">
                         <FormControl className={classes.formControl}>
-                            <InputLabel>Name</InputLabel>
+                            <InputLabel style={{color: 'aliceblue'}}>Name</InputLabel>
                             <Input
                                 type="text"
                                 value={editItem.name}
                                 name="name"
                                 onChange={handleChange}
+                                style={{color: 'aliceblue'}}
                             />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel>quantity</InputLabel>
+                            <InputLabel style={{color: 'aliceblue'}}>quantity</InputLabel>
                             <Input
                                 value={editItem.quantity}
                                 name="quantity"
                                 onChange={handleChange}
+                                style={{color: 'aliceblue'}}
                             />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel>Unit</InputLabel>
+                            <InputLabel style={{color: 'aliceblue'}}>Unit</InputLabel>
                             <Input
                                 value={editItem.unit}
                                 name="unit"
                                 onChange={handleChange}
+                                style={{color: 'aliceblue'}}
                             />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel>Category</InputLabel>
+                            <InputLabel style={{color: 'aliceblue'}}>Category</InputLabel>
                             <Select
                                 value={editItem.category_id}
                                 name="category_id"
                                 onChange={handleChange}
+                                style={{color: 'aliceblue'}}
                             >
                                 <MenuItem value={categories[0].id}>baking</MenuItem>
                                 <MenuItem value={categories[1].id}>canned</MenuItem>
@@ -246,10 +264,9 @@ function GroceryPage() {
                             </Select>
                         </FormControl>
                         <Button
-                            className={classes.button}
+                            className={classes.updateBtn}
                             variant="contained" size="small"
                             onClick={handleSubmitEdit}
-                            color="primary"
                         >
                             Update
                         </Button>
@@ -258,6 +275,7 @@ function GroceryPage() {
                             size="small"
                             onClick={handleCancelEdit}
                             color="secondary"
+                            className={classes.cancelBtn}
                         >
                             cancel
                         </Button>
