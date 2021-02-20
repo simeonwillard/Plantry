@@ -142,7 +142,7 @@ function PantryAdd({ categories }) {
                             <AddBoxIcon fontSize="large" />
                         </IconButton>
                     </ToolTip>
-                    <ToolTip title="Delete non-staples">
+                    <ToolTip title="Delete Table">
                         <Button
                             variant="contained"
                             onClick={handleClear}

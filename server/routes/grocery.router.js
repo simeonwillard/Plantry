@@ -6,8 +6,6 @@ const router = express.Router();
 // route to get the grocery list from db
 router.get('/', rejectUnauthenticated, (req, res) => {
 
-    // SELECT pertinent grocery_list info, the category names for the items, and the username of the
-    // current user all WHERE the user_id = the logged in user
     const queryText = `
                     SELECT "grocery_list".*, "grocery_category".name AS "category" FROM "grocery_list"
                     JOIN "grocery_category" ON "grocery_category".id = "grocery_list".category_id
@@ -68,25 +66,6 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
-
-// delete route to delete a single grocery item
-router.delete('/:id', rejectUnauthenticated, (req, res) => {
-
-    const itemToDelete = req.params.id;
-
-    const queryText = `DELETE FROM "grocery_list" WHERE "id" = $1 AND "user_id" = $2;`;
-
-    pool.query(queryText, [itemToDelete, req.user.id])
-        .then((result) => {
-            res.sendStatus(200);
-        })
-        .catch((error) => {
-            console.log('error deleting a grocery item', error);
-            res.sendStatus(500);
-        })
-})
-
-
 // put route to update an item on the grocery list
 router.put('/item/:id', rejectUnauthenticated, (req, res) => {
     let itemToEdit = req.body.editItem;
@@ -106,6 +85,23 @@ router.put('/item/:id', rejectUnauthenticated, (req, res) => {
         })
         .catch((error) => {
             console.log('error in updating edited item', error);
+            res.sendStatus(500);
+        })
+})
+
+// delete route to delete a single grocery item
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+
+    const itemToDelete = req.params.id;
+
+    const queryText = `DELETE FROM "grocery_list" WHERE "id" = $1 AND "user_id" = $2;`;
+
+    pool.query(queryText, [itemToDelete, req.user.id])
+        .then((result) => {
+            res.sendStatus(200);
+        })
+        .catch((error) => {
+            console.log('error deleting a grocery item', error);
             res.sendStatus(500);
         })
 })

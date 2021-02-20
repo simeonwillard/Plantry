@@ -1,5 +1,5 @@
 
-import FavoritesCompare from "../../FavoritesCompare/FavoritesCompare";
+import FavoritesCompare from "../FavoritesCompare/FavoritesCompare";
 
 
 function FavoriteDetails({ favorite }) {

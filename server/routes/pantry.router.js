@@ -62,48 +62,59 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
-
-
-// delete route to delete a single row in the pantry table
-router.delete('/:id', rejectUnauthenticated, (req, res) => {
-    let itemToDelete = req.params.id;
-
-    const queryText = `DELETE FROM "pantry" WHERE "id" = $1 AND "user_id" = $2;`;
-
-    pool.query(queryText, [itemToDelete, req.user.id])
-        .then((result) => {
-            res.sendStatus(200);
-        })
-        .catch((error) => {
-            console.log('error in deleting item from pantry', error);
-            res.sendStatus(500);
-        })
-})
-
-router.delete('/', rejectUnauthenticated, (req, res) => {
-    
-    const deleteAll = req.params;
-    console.log(deleteAll)
+// route for deleting from pantry
+router.delete('/:deleteIdentifier', rejectUnauthenticated, (req, res) => {
+    // conditional variable for query
+    const deleteIdentifier = req.params.deleteIdentifier;
 
     let queryText = ``;
 
-    if (deleteAll) {
-         queryText = `DELETE FROM "pantry" WHERE "user_id" = $1;`;
-    } else {
-         queryText = `DELETE FROM "pantry" WHERE "staple" = false AND "user_id" = $1;`;
+    // delete non-staples
+    if (deleteIdentifier === '-2') {
+
+        queryText = `DELETE FROM "pantry" WHERE "staple" = false AND "user_id" = $1;`;
+
+        pool.query(queryText, [req.user.id])
+            .then((result) => {
+                res.sendStatus(200);
+            })
+            .catch((error) => {
+                console.log('error clearing pantry', error);
+                res.sendStatus(500);
+            })
+
+    } // delete everything
+    else if (deleteIdentifier === '-1') {
+
+        queryText = `DELETE FROM "pantry" WHERE "user_id" = $1;`;
+
+        pool.query(queryText, [req.user.id])
+            .then((result) => {
+                res.sendStatus(200);
+            })
+            .catch((error) => {
+                console.log('error clearing pantry', error);
+                res.sendStatus(500);
+            })
+
+    } // delete selected item
+    else if (deleteIdentifier !== '-1' && deleteIdentifier !== '-2') {
+        let deleteIdentifier = req.params.deleteIdentifier;
+
+        const queryText = `DELETE FROM "pantry" WHERE "id" = $1 AND "user_id" = $2;`;
+
+        pool.query(queryText, [deleteIdentifier, req.user.id])
+            .then((result) => {
+                res.sendStatus(200);
+            })
+            .catch((error) => {
+                console.log('error in deleting item from pantry', error);
+                res.sendStatus(500);
+            })
     }
 
-    pool.query(queryText, [req.user.id])
-        .then((result) => {
-            res.sendStatus(200);
-        })
-        .catch((error) => {
-            console.log('error clearing pantry', error);
-            res.sendStatus(500);
-        })
+
 })
-
-
 
 
 module.exports = router;

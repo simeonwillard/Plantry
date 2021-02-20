@@ -26,8 +26,8 @@ function* editPantry(action) {
 function* deletePantryItem(action) {
     try {
         console.log('deleting pantry item');
-        const itemToDelete = action.payload.id;
-        yield axios.delete(`/api/pantry/${itemToDelete}`);
+        const deleteIdentifier = action.payload.id;
+        yield axios.delete(`/api/pantry/${deleteIdentifier}`);
         yield put({ type: 'FETCH_PANTRY' })
     } catch (error) {
         console.log('error in deleting item from pantry', error);
@@ -46,7 +46,8 @@ function* addPantryItem(action) {
 
 function* deleteNonStaples() {
     try {
-        yield axios.delete('/api/pantry', {deleteAll: false});
+        const deleteIdentifier = -2;
+        yield axios.delete(`/api/pantry/${deleteIdentifier}`);
         yield put({ type: 'FETCH_PANTRY' });
     } catch (error) {
         console.log('error deleting non staples', error);
@@ -55,7 +56,8 @@ function* deleteNonStaples() {
 
 function* deletePantry() {
     try {
-        yield axios.delete('/api/pantry', {deleteAll: true});
+        const deleteIdentifier = -1;
+        yield axios.delete(`/api/pantry/${deleteIdentifier}`);
         yield put({type: 'FETCH_PANTRY'});
     } catch (error) {
         console.log('error deleting entire pantry', error)

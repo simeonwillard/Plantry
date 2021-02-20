@@ -18,7 +18,6 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
-import image from './unnamed.png';
 
 const useStyles = makeStyles((theme) => ({
     baking: {
@@ -26,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 210,
         textAlign: "center",
         margin: 20,
-        // backgroundImage: `url(${image})`,
     },
     canned: {
         minWidth: 210,
@@ -283,7 +281,7 @@ function GroceryPage() {
                 }
             </div>
             <div>
-                <Grid container spacing={2} className={classes.grid}>
+                <Grid container spacing={4} className={classes.grid}>
                     {groceries.map((item) => {
                     //    let itemClass = item.category;
                     let itemClass = classNameGenerator(item);
