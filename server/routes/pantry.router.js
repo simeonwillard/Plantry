@@ -105,7 +105,17 @@ router.delete('/:deleteIdentifier', rejectUnauthenticated, (req, res) => {
 
         pool.query(queryText, [deleteIdentifier, req.user.id])
             .then((result) => {
-                res.sendStatus(200);
+                
+                const queryText = `UPDATE "ingredients" SET "in_pantry" = false;`;
+
+                pool.query(queryText)
+                .then((result) => {
+                    res.sendStatus(200);
+                })
+                .catch((error) => {
+                    console.log('error updating ingredients to false', error);
+                    res.sendStatus(500);
+                })
             })
             .catch((error) => {
                 console.log('error in deleting item from pantry', error);

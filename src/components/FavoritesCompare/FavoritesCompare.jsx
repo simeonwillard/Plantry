@@ -16,32 +16,35 @@ function FavoritesCompare({ ingredient, favorite }) {
 
     useEffect(() => {
         compare();
-        dispatch({type: 'FETCH_FAVORITES'})
+        dispatch({ type: 'FETCH_FAVORITES' });
+        dispatch({ type: 'FETCH_PANTRY' });
     }, []);
 
+    console.log(favorite.ingredients);
     // comparing ingredients of the recipe to the items in the pantry
     const compare = () => {
         for (let food of foodInPantry) {
 
-            const regularExpression = new RegExp(`${food}`, 'gi');
+            // const regularExpression = new RegExp(`${food}`, 'gi');
 
-            for (let ingredient of favorite.ingredients) {
+            for (let ingredient of favorite?.ingredients) {
                 // if that ingredient is in the pantry, set in_pantry to true, else false
-                if (regularExpression.test(ingredient.name)) {
-                    dispatch({ type: 'SET_IN_PANTRY', payload: {id: ingredient.id, in_pantry: true } });
-                } else if (ingredient.in_pantry) {
-                    dispatch({type: 'SET_IN_PANTRY', payload: {id: ingredient.id, in_pantry: false} })
+                if (ingredient?.name.includes(food)) {
+                    dispatch({ type: 'SET_IN_PANTRY', payload: { id: ingredient.id, in_pantry: true } });
                 }
             }
         }
     }
 
 
+
+
     return (
         <div>
-            {ingredient.in_pantry 
-            ? <li>{ingredient.name}<CheckIcon fontSize="small" style={{color: "blue", marginLeft: 5}}/></li> 
-            : <li>{ingredient.name}</li>}
+
+            {ingredient.in_pantry
+                ? <li>{ingredient.name}<CheckIcon fontSize="small" style={{ color: "blue", marginLeft: 5 }} /></li>
+                : <li>{ingredient.name}</li>}
         </div>
     )
 }
