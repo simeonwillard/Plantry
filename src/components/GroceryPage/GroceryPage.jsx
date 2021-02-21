@@ -26,12 +26,18 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         margin: 20,
     },
+    spices: {
+        backgroundColor: "lightsteelblue",
+        minWidth: 210,
+        textAlign: "center",
+        margin: 20,
+    },
     canned: {
         minWidth: 210,
         textAlign: "center",
         margin: 20,
         backgroundColor: "#ffcc80",
-    }, 
+    },
     dairy: {
         minWidth: 210,
         textAlign: "center",
@@ -99,8 +105,15 @@ const useStyles = makeStyles((theme) => ({
         mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
         boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
         border: '1px solid gray'
+    },
+    header: {
+        textAlign: 'center',
+        color: 'lightblue'
+    },
+    formColor: {
+        color: 'aliceblue'
     }
-    
+
 }));
 
 
@@ -113,9 +126,9 @@ function GroceryPage() {
 
     function classNameGenerator(item) {
 
-                        
+
         let itemClass = '';
-    
+
         switch (item.category) {
             case 'baking':
                 return itemClass = classes.baking;
@@ -133,6 +146,8 @@ function GroceryPage() {
                 return itemClass = classes.frozen;
             case 'misc.':
                 return itemClass = classes.misc;
+            case 'spices':
+                return itemClass = classes.spices;
             default:
                 return itemClass;
         }
@@ -203,7 +218,7 @@ function GroceryPage() {
     return (
         <div>
             <div>
-                <h1 style={{textAlign: 'center', color: 'lightblue'}}>Grocery List</h1>
+                <h1 className={classes.header}>Grocery List</h1>
             </div>
             <br />
             <br />
@@ -216,40 +231,40 @@ function GroceryPage() {
                 {readyToEdit &&
                     <div id="editForm">
                         <FormControl className={classes.formControl}>
-                            <InputLabel style={{color: 'aliceblue'}}>Name</InputLabel>
+                            <InputLabel className={classes.formColor}>Name</InputLabel>
                             <Input
                                 type="text"
                                 value={editItem.name}
                                 name="name"
                                 onChange={handleChange}
-                                style={{color: 'aliceblue'}}
-                            />
+                                className={classes.formColor} 
+                                />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel style={{color: 'aliceblue'}}>quantity</InputLabel>
+                            <InputLabel className={classes.formColor}>quantity</InputLabel>
                             <Input
                                 value={editItem.quantity}
                                 name="quantity"
                                 onChange={handleChange}
-                                style={{color: 'aliceblue'}}
-                            />
+                                className={classes.formColor} 
+                                />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel style={{color: 'aliceblue'}}>Unit</InputLabel>
+                            <InputLabel className={classes.formColor}>Unit</InputLabel>
                             <Input
                                 value={editItem.unit}
                                 name="unit"
                                 onChange={handleChange}
-                                style={{color: 'aliceblue'}}
-                            />
+                                className={classes.formColor} 
+                                />
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                            <InputLabel style={{color: 'aliceblue'}}>Category</InputLabel>
+                            <InputLabel className={classes.formColor}>Category</InputLabel>
                             <Select
                                 value={editItem.category_id}
                                 name="category_id"
                                 onChange={handleChange}
-                                style={{color: 'aliceblue'}}
+                                className={classes.formColor}
                             >
                                 <MenuItem value={categories[0].id}>baking</MenuItem>
                                 <MenuItem value={categories[1].id}>canned</MenuItem>
@@ -259,6 +274,8 @@ function GroceryPage() {
                                 <MenuItem value={categories[5].id}>beverages</MenuItem>
                                 <MenuItem value={categories[6].id}>frozen</MenuItem>
                                 <MenuItem value={categories[7].id}>misc.</MenuItem>
+                                <MenuItem value={categories[8].id}>spices.</MenuItem>
+
                             </Select>
                         </FormControl>
                         <Button
@@ -283,17 +300,17 @@ function GroceryPage() {
             <div>
                 <Grid container spacing={4} className={classes.grid}>
                     {groceries.map((item) => {
-                    //    let itemClass = item.category;
-                    let itemClass = classNameGenerator(item);
-                       console.log(itemClass)
+                        //    let itemClass = item.category;
+                        let itemClass = classNameGenerator(item);
+                        console.log(itemClass)
                         return (
 
                             <div>
                                 <Grid key={item.id} item xs={3}>
-                                    <Card 
-                                    key={item.id} 
-                                    className={itemClass} 
-                                    variant="outlined">
+                                    <Card
+                                        key={item.id}
+                                        className={itemClass}
+                                        variant="outlined">
                                         <CardContent>
                                             <Typography className={classes.title} gutterBottom>
                                                 <b>{item.name}</b>

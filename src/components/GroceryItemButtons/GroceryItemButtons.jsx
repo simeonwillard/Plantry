@@ -51,7 +51,7 @@ function GroceryItemButtons({ item, setReadyToEdit, readyToEdit, editItem, setEd
             name: item.name,
             quantity: item.quantity,
             unit: item.unit,
-            category_id: item.id
+            category_id: item.category_id
         });
     }
 

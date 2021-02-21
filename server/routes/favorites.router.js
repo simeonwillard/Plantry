@@ -55,20 +55,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
         })
 });
 
-// route to update ingredients table with new recipe ingredients
-router.put('/:id', rejectUnauthenticated, (req, res) => {
 
-    const queryText = `UPDATE "ingredients" SET "in_pantry" = $1 WHERE "id" = $2;`;
-
-    pool.query(queryText, [req.body.in_pantry, req.params.id])
-    .then((result) => {
-        res.sendStatus(200);
-    })
-    .catch((error) => {
-        console.log('error updating ingredients', error);
-        res.sendStatus(500);
-    })
-})
 
 // deleting a favorite recipe
 router.delete('/:id', rejectUnauthenticated, (req, res) => {

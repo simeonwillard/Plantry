@@ -23,7 +23,11 @@ const useStyles = makeStyles((theme) => ({
     search: {
         color: 'aliceblue',
         fontSize: 30,
-        // backgroundColor: 'aliceblue'
+    },
+    header: {
+        textAlign: 'center', 
+        color: 'lightblue', 
+        fontSize: 50
     }
 }))
 
@@ -51,7 +55,7 @@ function SearchRecipes() {
     return (
         <div>
             <div>
-                <h1 style={{ textAlign: 'center', color: 'lightblue', fontSize: 50 }}><b>Find Recipes</b></h1>
+                <h1 className={classes.header}><b>Find Recipes</b></h1>
                 <form onSubmit={handleSubmit} className={classes.form}>
                     <Input
                         type="text"
@@ -75,7 +79,6 @@ function SearchRecipes() {
                             )
                         })}
                     </Grid>
-                    {/* </Grid> */}
                 </div>
             </div>
 

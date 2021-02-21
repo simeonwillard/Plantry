@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-        textAlign: "center"
+        textAlign: "center",
     },
     addFormBtn: {
         margin: 10,
@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
     },
     clearBtn: {
-        color: "white",
-        backgroundColor: "black",
+        color: 'white',
+        backgroundColor: 'black',
         webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
         mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
         boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
@@ -43,14 +43,18 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '70%'
     },
     addForm: {
-        textAlign: "center"
+        textAlign: "center",
     },
     cancelBtn: {
         webkitBoxShadow: '3px 15px 20px 10px rgba(0,0,0,0.73)',
         mozBoxShadow: '3px 15px 20px 10px rgba(0, 0, 0, 0.73)',
         boxShadow: '3px 10px 20px 10px rgba(0, 0, 0, 0.73)',
         border: '1px solid gray'
+    },
+    formColor: {
+        color: 'aliceblue',
     }
+    
 
 }));
 
@@ -139,40 +143,40 @@ function GroceryAddForm({ categories }) {
             {readyToAddItem &&
                 <div className={classes.addForm}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel style={{color: 'aliceblue'}}>Name</InputLabel>
+                        <InputLabel className={classes.formColor}>Name</InputLabel>
                         <Input
                             type="text"
                             value={addItem.name}
                             name="name"
                             onChange={handleChange}
-                            style={{color: 'aliceblue'}}
+                            className={classes.formColor}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel style={{color: 'aliceblue'}}>quantity</InputLabel>
+                        <InputLabel className={classes.formColor}>quantity</InputLabel>
                         <Input
                             value={addItem.quantity}
                             name="quantity"
                             onChange={handleChange}
-                            style={{color: 'aliceblue'}}
+                            className={classes.formColor}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel style={{color: 'aliceblue'}}>Unit</InputLabel>
+                        <InputLabel className={classes.formColor}>Unit</InputLabel>
                         <Input
                             value={addItem.unit}
                             name="unit"
                             onChange={handleChange}
-                            style={{color: 'aliceblue'}}
+                            className={classes.formColor}
                         />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <InputLabel style={{color: 'aliceblue'}}>Category</InputLabel>
+                        <InputLabel className={classes.formColor}>Category</InputLabel>
                         <Select
                             value={addItem.category_id}
                             name="category_id"
                             onChange={handleChange}
-                            style={{color: 'aliceblue'}}
+                            className={classes.formColor}
                         >
                             <MenuItem value={categories[0].id}>baking</MenuItem>
                             <MenuItem value={categories[1].id}>canned</MenuItem>
@@ -182,6 +186,8 @@ function GroceryAddForm({ categories }) {
                             <MenuItem value={categories[5].id}>beverages</MenuItem>
                             <MenuItem value={categories[6].id}>frozen</MenuItem>
                             <MenuItem value={categories[7].id}>misc.</MenuItem>
+                            <MenuItem value={categories[8].id}>spices</MenuItem>
+
                         </Select>
                     </FormControl>
                     <Button

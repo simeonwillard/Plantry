@@ -15,11 +15,11 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
-import InfoPage from '../InfoPage/InfoPage';
+import HelpPage from '../HelpPage/HelpPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-import SearchRecipes from '../SearchRecipes/SearchRecipes';
+import RecipePage from '../RecipePage/RecipePage';
 
 import './App.css';
 import FavoritesPage from '../FavoritesPage/FavoritesPage';
@@ -67,37 +67,37 @@ function App() {
             exact
             path="/info"
           >
-            <InfoPage />
+            <HelpPage />
           </ProtectedRoute>
 
           <ProtectedRoute
-          // logged in shows search recipes page
+            // logged in shows search recipes page
             exact
             path="/search-recipes"
           >
-            <SearchRecipes />
+            <RecipePage />
           </ProtectedRoute>
 
           <ProtectedRoute
-          // logged in shows users favorites page
-          exact
-          path="/favorites"
+            // logged in shows users favorites page
+            exact
+            path="/favorites"
           >
             <FavoritesPage />
           </ProtectedRoute>
 
           <ProtectedRoute
-          // logged in shows user's pantry
-          exact
-          path="/pantry"
+            // logged in shows user's pantry
+            exact
+            path="/pantry"
           >
             <PantryPage />
           </ProtectedRoute>
 
           <ProtectedRoute
-          // logged in shows user's pantry
-          exact
-          path="/grocery-list"
+            // logged in shows user's pantry
+            exact
+            path="/grocery-list"
           >
             <GroceryPage />
           </ProtectedRoute>

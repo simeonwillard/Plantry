@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
     },
     notFav: {
         color: 'gray'
+    },
+    details: {
+        fontWeight: 'normal'
     }
 }));
 
@@ -109,9 +112,9 @@ function RecipeList({ recipe }) {
                         >
                             Go to Recipe
                         </Button>
-                        <h5 style={{fontWeight: "normal"}}><b>Source:</b> <em>{recipe.recipe.source}</em></h5>
-                        <h5 style={{fontWeight: "normal"}}><b>Calories:</b> {(recipe.recipe.calories).toFixed(2)}</h5>
-                        <h5 style={{fontWeight: "normal"}}><b>Yield:</b> {recipe.recipe.yield} servings</h5>
+                        <h5 className={classes.details}><b>Source:</b> <em>{recipe.recipe.source}</em></h5>
+                        <h5 className={classes.details}><b>Calories:</b> {(recipe.recipe.calories).toFixed(0)}</h5>
+                        <h5 className={classes.details}><b>Yield:</b> {recipe.recipe.yield} servings</h5>
                     </CardContent>
                     <CardActions disableSpacing>
                         <IconButton

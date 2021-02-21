@@ -12,7 +12,7 @@ function FavoritesPage() {
     // stores all the user's favorite recipes
     const favorites = useSelector((state) => state.favoritesReducer);
 
-    
+
 
     useEffect(() => {
         // displays the user's favorites on the DOM on page load

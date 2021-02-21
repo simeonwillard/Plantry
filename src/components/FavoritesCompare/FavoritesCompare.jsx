@@ -1,15 +1,18 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckIcon from '@material-ui/icons/Check';
 
-function FavoritesCompare({ ingredient, favorite }) {
+function FavoritesCompare({ ingredient }) {
 
+    // getting food items from pantry
     const pantry = useSelector(state => state.pantryReducer);
-
+    // array to store just the food names
     const foodInPantry = [];
-    const dispatch = useDispatch();
+    const [haveItem, setHaveItem] = useState(false);
 
+    const dispatch = useDispatch();
+    // storing the food from the pantry in the array
     for (let product of pantry) {
         foodInPantry.push(product.item);
     }
@@ -20,29 +23,21 @@ function FavoritesCompare({ ingredient, favorite }) {
         dispatch({ type: 'FETCH_PANTRY' });
     }, []);
 
-    console.log(favorite.ingredients);
-    // comparing ingredients of the recipe to the items in the pantry
+
     const compare = () => {
         for (let food of foodInPantry) {
+            const regularExpression = new RegExp(`${food}`, 'gi')
 
-            // const regularExpression = new RegExp(`${food}`, 'gi');
-
-            for (let ingredient of favorite?.ingredients) {
-                // if that ingredient is in the pantry, set in_pantry to true, else false
-                if (ingredient?.name.includes(food)) {
-                    dispatch({ type: 'SET_IN_PANTRY', payload: { id: ingredient.id, in_pantry: true } });
-                }
+            if (regularExpression.test(ingredient.name)) {
+                setHaveItem(true);
             }
         }
     }
 
-
-
-
     return (
         <div>
 
-            {ingredient.in_pantry
+            {haveItem
                 ? <li>{ingredient.name}<CheckIcon fontSize="small" style={{ color: "blue", marginLeft: 5 }} /></li>
                 : <li>{ingredient.name}</li>}
         </div>

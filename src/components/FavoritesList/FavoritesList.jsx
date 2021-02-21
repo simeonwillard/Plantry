@@ -1,4 +1,3 @@
-
 import { useDispatch } from "react-redux";
 import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,7 +10,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -29,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
     media: {
         height: 0,
-        paddingTop: '56.25%', // 16:9
+        paddingTop: '56.25%',
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -44,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         backgroundColor: red[500],
     },
+    details: {
+        fontWeight: 'normal'
+    }
 }));
 
 
@@ -52,10 +53,6 @@ const useStyles = makeStyles((theme) => ({
 function FavoritesList({ favorite }) {
 
     const dispatch = useDispatch();
-
-
-
-
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
 
@@ -67,8 +64,6 @@ function FavoritesList({ favorite }) {
 
     return (
         <div>
-            {/* <h6 key={i}>{favorite.title}</h6>
-                        <img src={favorite.image} /> */}
             <Card className={classes.root} key={favorite.id}>
                 <CardHeader
                     avatar={
@@ -101,9 +96,9 @@ function FavoritesList({ favorite }) {
                         href={favorite.url}>
                         Go to Recipe
                     </Button>
-                    <h5 style={{ fontWeight: 'normal' }}><b>Source:</b> {favorite.source}</h5>
-                    <h5 style={{ fontWeight: 'normal' }}><b>Calories:</b> {favorite.calories}</h5>
-                    <h5 style={{ fontWeight: 'normal' }}><b>Yield:</b> {favorite.yield} servings</h5>
+                    <h5 className={classes.details}><b>Source:</b> {favorite.source}</h5>
+                    <h5 className={classes.details}><b>Calories:</b> {favorite.calories.toFixed(0)}</h5>
+                    <h5 className={classes.details}><b>Yield:</b> {favorite.yield} servings</h5>
                 </CardContent>
                 <CardActions disableSpacing>
                     <ToolTip title="Delete Favorite">

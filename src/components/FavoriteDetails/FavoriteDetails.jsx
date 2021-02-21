@@ -1,12 +1,7 @@
-
 import FavoritesCompare from "../FavoritesCompare/FavoritesCompare";
 
 
 function FavoriteDetails({ favorite }) {
-
-
-
-    
 
     return (
         <div>
@@ -16,15 +11,13 @@ function FavoriteDetails({ favorite }) {
 
                 return (
                     <ul key={i}>
-                        <FavoritesCompare favorite={favorite} ingredient={ingredient}/>
+                        <FavoritesCompare ingredient={ingredient} />
                     </ul>
                 )
             })}
 
         </div>
     )
-
-
 }
 
 
