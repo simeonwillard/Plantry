@@ -121,22 +121,9 @@ function GroceryAddForm({ categories }) {
         })
     }
 
-    const handleState = () => {
-        setAddItem({
-            name: 'garlic',
-            quantity: '4',
-            unit: 'heads',
-            category_id: 4
-        })
-    }
 
     return (
         <div>
-            <div>
-                <button onClick={handleState} style={{backgroundColor: 'transparent', borderColor: 'transparent', color: 'transparent', opacity: '0'}}>
-                    click
-                </button>
-            </div>
             {!readyToAddItem &&
                 <div className={classes.topBtns}>
                     <div>
